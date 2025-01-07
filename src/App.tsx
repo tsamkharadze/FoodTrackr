@@ -1,6 +1,11 @@
+import { ThemeProvider } from "./components/theme-provider";
+import Test from "./pages/test";
+
 function App() {
   return (
-    <h1 className="text-3xl text-cyan-800 font-bold underline">Hello world!</h1>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Test />
+    </ThemeProvider>
   );
 }
 
