@@ -46,7 +46,7 @@ const Test: React.FC = () => {
       <h1 className="text-2xl font-bold mb-6">BMI Calculator</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4 w-full bg-white p-4 shadow-md rounded-md"
+        className="space-y-4 w-full dark:bg-black bg-white p-4 shadow-md rounded-md"
       >
         {/* Sex */}
         <div>

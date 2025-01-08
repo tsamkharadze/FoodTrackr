@@ -1,0 +1,12 @@
+{
+  "title": "შესვლა",
+  "description": "შეიყვანეთ თქვენი ელფოსტა ანგარიშში შესასვლელად",
+  "email-label": "ელფოსტა",
+  "email-placeholder": "example@example.com",
+  "password-label": "პაროლი",
+  "forgot-password": "დაგავიწყდა პაროლი?",
+  "login-button": "შესვლა",
+  "login-with-google": "შესვლა Google-ის მეშვეობით",
+  "signup-prompt": "არ გაქვთ ანგარიში?",
+  "signup-link": "რეგისტრაცია"
+}
