@@ -1,0 +1,15 @@
+{
+  "profile": {
+    "title": "Edit profile info",
+    "description": "Please fill all fields",
+    "fields": {
+      "name": "Name ",
+      "namePlaceholder": "Enter your name "
+    },
+
+    "buttons": {
+      "confirm": "Confirm"
+    },
+    "loading": "Loading"
+  }
+}

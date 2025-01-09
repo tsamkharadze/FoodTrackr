@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   Select,
   SelectTrigger,
@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import useNutritionCalculator from "@/hooks/useNutritionCalculator";
 
 type FormData = {
   sex: string;
@@ -27,23 +28,27 @@ const BmiCalc: React.FC = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const sex = watch("sex");
+  const age = watch("age");
+  const height = watch("height");
+  const weight = watch("weight");
+
+  const { bmi, dailyCalories, carbs, protein, fats } = useNutritionCalculator({
+    sex: sex || "",
+    age: age || 0,
+    height: height || 0,
+    weight: weight || 0,
+  });
+
+  const onSubmit = (data: FormData) => {
     console.log("Submitted Data:", data);
-  };
-
-  const calculateBMI = (): string => {
-    const height = watch("height");
-    const weight = watch("weight");
-    if (!height || !weight) return "N/A";
-
-    const heightInMeters = height / 100;
-    const bmi = weight / (heightInMeters * heightInMeters);
-    return bmi.toFixed(2);
   };
 
   return (
     <div className="flex flex-col items-center p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-6">BMI Calculator</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        BMI & Macronutrient Calculator
+      </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-4 w-full dark:bg-black bg-white p-4 shadow-md rounded-md"
@@ -117,14 +122,30 @@ const BmiCalc: React.FC = () => {
           type="submit"
           className="w-full bg-blue-500 hover:bg-blue-600 text-white"
         >
-          Calculate BMI
+          Calculate BMI & Macros
         </Button>
       </form>
 
       {/* BMI Result */}
       <div className="mt-6">
         <h2 className="text-xl font-semibold">Your BMI:</h2>
-        <p className="text-lg">{calculateBMI()}</p>
+        <p className="text-lg">{bmi}</p>
+      </div>
+
+      {/* Daily Caloric Intake */}
+      <div className="mt-6">
+        <h2 className="text-xl font-semibold">
+          Recommended Daily Intake (Weight Loss):
+        </h2>
+        <p className="text-lg">Calories: {dailyCalories} kcal</p>
+      </div>
+
+      {/* Macronutrient Result */}
+      <div className="mt-6">
+        <h2 className="text-xl font-semibold">Your Macronutrients:</h2>
+        <p className="text-lg">Carbs: {carbs} grams</p>
+        <p className="text-lg">Protein: {protein} grams</p>
+        <p className="text-lg">Fats: {fats} grams</p>
       </div>
     </div>
   );

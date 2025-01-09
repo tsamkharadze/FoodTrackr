@@ -2,6 +2,7 @@ import LoginView from "@/pages/login/view/login-view";
 import { AUTH_PATHS } from "./auth.enum";
 import { Route } from "react-router-dom";
 import RegistrationView from "@/pages/register/view/registration-view";
+import ProfileView from "@/pages/profile/view/profile-view";
 
 export const AUTH_ROUTES = [
   <Route
@@ -19,6 +20,15 @@ export const AUTH_ROUTES = [
     element={
       // <LogoutGuard>
       <RegistrationView />
+      // </LogoutGuard>
+    }
+  />,
+  <Route
+    key="profile"
+    path={AUTH_PATHS.USER_PROFILE}
+    element={
+      // <LogoutGuard>
+      <ProfileView />
       // </LogoutGuard>
     }
   />,

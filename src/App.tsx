@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { ThemeProvider } from "./components/theme-provider";
 import { AllRoutes } from "./routes/all-routes";
 import { supabase } from "./supabase";
-import { useSetAtom } from "jotai";
-import { userAtom } from "./store/auth";
+import { useAtom } from "jotai";
+import { profileAtom, userAtom } from "./store/auth";
+import { getProfileInfo } from "./supabase/account";
 
 function App() {
-  const setUser = useSetAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom);
   const [isLoading, setIsloading] = useState(true);
+  const [profile, setUserProfile] = useAtom(profileAtom);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -23,6 +25,14 @@ function App() {
 
     return () => subscription.unsubscribe();
   }, [setUser]);
+
+  useEffect(() => {
+    if (user)
+      getProfileInfo(user.user.id).then((res) =>
+        setUserProfile(res.data[0] || ""),
+      );
+  }, [user, setUserProfile]);
+  console.log(profile);
 
   if (isLoading) {
     return <div>loading</div>;

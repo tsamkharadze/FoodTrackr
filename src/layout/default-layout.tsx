@@ -20,7 +20,6 @@ export default function DefaultLayout() {
   const { t } = useTranslation();
   const user = useAtomValue(userAtom);
   const navigate = useNavigate();
-  console.log(user);
 
   const unauthorized = [
     { name: t("header-trans.home"), href: "/", icon: Home },
