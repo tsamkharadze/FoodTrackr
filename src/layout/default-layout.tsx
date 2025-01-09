@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
   UtensilsCrossed,
@@ -29,7 +29,7 @@ export default function DefaultLayout() {
       href: "/food-diary",
       icon: UtensilsCrossed,
     },
-    { name: t("header-trans.bmi-calculator"), href: "/weight", icon: Scale },
+    { name: t("header-trans.bmi-calculator"), href: "/BMI", icon: Scale },
   ];
   const authorized = [
     { name: t("header-trans.dashboard"), href: "/", icon: Home },
@@ -61,7 +61,7 @@ export default function DefaultLayout() {
                 {navigation.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <Link
+                    <NavLink
                       key={item.name}
                       to={item.href}
                       className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
@@ -72,7 +72,7 @@ export default function DefaultLayout() {
                     >
                       <Icon className="mr-2 h-4 w-4" />
                       {item.name}
-                    </Link>
+                    </NavLink>
                   );
                 })}
               </nav>

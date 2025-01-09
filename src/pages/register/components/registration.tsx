@@ -11,37 +11,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
-import { useSignIn } from "@/react-query/mutation/authorization";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useSignUp } from "@/react-query/mutation/authorization";
+import { useNavigate } from "react-router-dom";
 import { AUTH_PATHS } from "@/routes/auth/auth.enum";
 
-interface LoginFormInputs {
+interface RegisterFormInputs {
   email: string;
   password: string;
 }
 
-export function LoginForm({
+export function RegisterForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const { t } = useTranslation();
-  const { handleSubmit, register } = useForm<LoginFormInputs>();
+  const { handleSubmit, register } = useForm<RegisterFormInputs>();
   const navigate = useNavigate();
-  const location = useLocation();
-  const queryClient = useQueryClient();
 
-  const toNavigate =
-    location?.state?.from.pathname + location?.state?.from.search || "/";
+  const { mutate: handleSignUp } = useSignUp();
 
-  const { mutate: handleLogin } = useSignIn();
-
-  const onSubmit = (data: LoginFormInputs) => {
+  const onSubmit = (data: RegisterFormInputs) => {
     console.log(data);
-    handleLogin(data, {
+    handleSignUp(data, {
       onSuccess: () => {
-        navigate(toNavigate);
-        queryClient.invalidateQueries();
+        console.log("user succesfully registered");
       },
     });
   };
@@ -50,18 +43,20 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">{t("login-trans.title")}</CardTitle>
-          <CardDescription>{t("login-trans.description")}</CardDescription>
+          <CardTitle className="text-2xl">
+            {t("register-trans.title")}
+          </CardTitle>
+          <CardDescription>{t("register-trans.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">{t("login-trans.email-label")}</Label>
+                <Label htmlFor="email">{t("register-trans.email-label")}</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder={t("login-trans.email-placeholder")}
+                  placeholder={t("register-trans.email-placeholder")}
                   required
                   {...register("email")}
                 />
@@ -69,14 +64,8 @@ export function LoginForm({
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">
-                    {t("login-trans.password-label")}
+                    {t("register-trans.password-label")}
                   </Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    {t("login-trans.forgot-password")}
-                  </a>
                 </div>
                 <Input
                   id="password"
@@ -86,17 +75,17 @@ export function LoginForm({
                 />
               </div>
               <Button type="submit" className="w-full">
-                {t("login-trans.login-button")}
+                {t("register-trans.login-button")}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              {t("login-trans.signup-prompt")}{" "}
+              {t("register-trans.signup-prompt")}{" "}
               <a
                 href="#"
                 className="underline underline-offset-4"
-                onClick={() => navigate(AUTH_PATHS.REGISTER_PAGE)}
+                onClick={() => navigate(AUTH_PATHS.LOGIN_PAGE)}
               >
-                {t("login-trans.signup-link")}
+                {t("register-trans.signup-link")}
               </a>
             </div>
           </form>

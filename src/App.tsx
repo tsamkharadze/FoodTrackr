@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { ModeToggle } from "./components/mode-toogle";
 import { ThemeProvider } from "./components/theme-provider";
 import { AllRoutes } from "./routes/all-routes";
 import { supabase } from "./supabase";
 import { useSetAtom } from "jotai";
 import { userAtom } from "./store/auth";
-import { ChangeLagunge } from "./components/lang-switcher";
 
 function App() {
   const setUser = useSetAtom(userAtom);
@@ -32,8 +30,6 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <AllRoutes />
-      <ModeToggle />
-      <ChangeLagunge />
     </ThemeProvider>
   );
 }

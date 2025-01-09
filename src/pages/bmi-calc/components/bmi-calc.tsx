@@ -18,7 +18,7 @@ type FormData = {
   weight: number;
 };
 
-const Test: React.FC = () => {
+const BmiCalc: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -130,4 +130,4 @@ const Test: React.FC = () => {
   );
 };
 
-export default Test;
+export default BmiCalc;
