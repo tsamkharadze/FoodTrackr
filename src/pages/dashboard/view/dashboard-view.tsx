@@ -1,7 +1,12 @@
-import Dashboard from "../components/dashboard";
+import { CaloriesChart } from "../components/calories-chart/calories-chart";
 
 const DashboardView = () => {
-  return <Dashboard />;
+  return (
+    <>
+      <CaloriesChart />
+      {/* <FoodList /> */}
+    </>
+  );
 };
 
 export default DashboardView;
