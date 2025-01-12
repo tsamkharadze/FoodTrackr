@@ -21,6 +21,7 @@ import { useEditProfile } from "@/react-query/mutation/edit/edit";
 import { useGetProfile } from "@/react-query/query/profile/profile";
 import { userAtom } from "@/store/auth";
 import type { Profile } from "@/types/user";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -31,15 +32,13 @@ const Profile = () => {
   const user = useAtomValue(userAtom);
   const userId = user?.user?.id;
   const { t } = useTranslation();
-
+  const queryclient = useQueryClient();
   const { register, handleSubmit, formState, setValue } = useForm<Profile>();
 
   // Fetch profile
-  const {
-    data: userProfile,
-    refetch,
-    isLoading,
-  } = useGetProfile({ userId: userId as string });
+  const { data: userProfile, isLoading } = useGetProfile({
+    userId: userId as string,
+  });
 
   const handleAvatarSelect = (avatarSvg: string) => {
     setAvatar(avatarSvg);
@@ -58,9 +57,9 @@ const Profile = () => {
       },
       {
         onSuccess: () => {
-          refetch();
+          queryclient.invalidateQueries({ queryKey: ["profileInfo", userId] });
         },
-      },
+      }
     );
   };
 
@@ -92,7 +91,7 @@ const Profile = () => {
               <Input
                 type="text"
                 placeholder={t(
-                  "profile-translation.profile.fields.namePlaceholder",
+                  "profile-translation.profile.fields.namePlaceholder"
                 )}
                 {...register("full_name", {
                   required: t("error-translation.mandatory"),
@@ -115,6 +114,7 @@ const Profile = () => {
                 {...register("age", {
                   required: "Age is required",
                   valueAsNumber: true,
+                  value: userProfile?.age || undefined,
                 })}
               />
             </div>
@@ -133,6 +133,7 @@ const Profile = () => {
                 {...register("height", {
                   required: "Height is required",
                   valueAsNumber: true,
+                  value: userProfile?.height || undefined,
                 })}
               />
             </div>
@@ -151,6 +152,7 @@ const Profile = () => {
                 {...register("weight", {
                   required: "Weight is required",
                   valueAsNumber: true,
+                  value: userProfile?.weight || undefined,
                 })}
               />
             </div>
@@ -162,10 +164,10 @@ const Profile = () => {
               </Label>
               <Select
                 onValueChange={(value) => setValue("sex", value)}
-                defaultValue="Male"
+                defaultValue={userProfile?.sex?.toString() || "Male"}
               >
                 <SelectTrigger id="sex">
-                  <SelectValue placeholder="Select your sex" />
+                  <SelectValue placeholder={userProfile?.sex} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Male">Male</SelectItem>

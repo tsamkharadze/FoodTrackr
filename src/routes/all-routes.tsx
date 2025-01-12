@@ -1,4 +1,4 @@
-import DefaultLayout from "@/layout/default-layout";
+import DefaultLayout from "@/layout/default/default-layout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AUTH_ROUTES } from "./auth/auth-routes";
 import NotFoundPage from "@/pages/404/not-found-page";

@@ -17,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DASHBOARD_PATHS } from "@/routes/dashboard/dashboard.enum";
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
@@ -37,19 +38,27 @@ export const Header = () => {
     },
     {
       name: t("header-trans.bmi-calculator"),
-      href: `/${lang}/BMI`,
+      href: `/${lang}/${DASHBOARD_PATHS.BMI_CALC}`,
       icon: Scale,
     },
   ];
   const authorized = [
-    { name: t("header-trans.dashboard"), href: "/", icon: Home },
+    {
+      name: t("header-trans.dashboard"),
+      href: `/${lang}/${DASHBOARD_PATHS.DASHBOARD}`,
+      icon: Home,
+    },
     {
       name: t("header-trans.food-diary"),
       href: "/food-diary",
       icon: UtensilsCrossed,
     },
     { name: t("header-trans.weight"), href: "/weight", icon: Scale },
-    { name: t("header-trans.profile"), href: `/${lang}/profile`, icon: User },
+    {
+      name: t("header-trans.profile"),
+      href: `/${lang}/${AUTH_PATHS.USER_PROFILE}`,
+      icon: User,
+    },
   ];
 
   const navigation = !user ? unauthorized : authorized;
@@ -119,17 +128,12 @@ export const Header = () => {
                     {t("header-trans.my-account")}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <NavLink to="/profile">
+                  <NavLink to={`/${lang}/${AUTH_PATHS.USER_PROFILE}`}>
                     <DropdownMenuItem>
-                      {t("header-trans.edit-profile")}
+                      {t("header-trans.profile")}
                     </DropdownMenuItem>
                   </NavLink>
-                  <DropdownMenuItem>
-                    {t("header-trans.help-support")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    {t("header-trans.feedback")}
-                  </DropdownMenuItem>
+
                   <DropdownMenuItem onClick={() => handleLogout()}>
                     {t("header-trans.sign-out")}
                   </DropdownMenuItem>

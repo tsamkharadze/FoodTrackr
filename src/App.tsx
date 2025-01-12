@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { ThemeProvider } from "./components/theme-provider";
 import { AllRoutes } from "./routes/all-routes";
 import { supabase } from "./supabase";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { profileAtom, userAtom } from "./store/auth";
-import { getProfileInfo } from "./supabase/account";
+import { useGetProfile } from "./react-query/query/profile/profile";
 
 function App() {
   const [user, setUser] = useAtom(userAtom);
   const [isLoading, setIsloading] = useState(true);
-  const [profile, setUserProfile] = useAtom(profileAtom);
+  const setUserProfile = useSetAtom(profileAtom);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -26,13 +26,23 @@ function App() {
     return () => subscription.unsubscribe();
   }, [setUser]);
 
+  const { data } = useGetProfile({
+    userId: user?.user.id || "", // Ensure you pass the userId as part of an object
+    queryOptions: {
+      enabled: !!user?.user.id, // Use queryOptions for enabling/disabling the query
+    },
+  });
+
   useEffect(() => {
-    if (user)
-      getProfileInfo(user.user.id).then((res) =>
-        setUserProfile(res.data[0] || ""),
-      );
-  }, [user, setUserProfile]);
-  console.log(profile);
+    if (data) {
+      const updatedProfile = {
+        ...data,
+        sex:
+          data.sex !== undefined && data.sex !== null ? String(data.sex) : null,
+      };
+      setUserProfile(updatedProfile);
+    }
+  }, [data, setUserProfile]);
 
   if (isLoading) {
     return <div>loading</div>;
