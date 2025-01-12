@@ -60,6 +60,7 @@ export type Database = {
         Row: {
           age: number | null;
           avatar_url: string | null;
+          bmi: number | null;
           created_at: string | null;
           email: string;
           full_name: string;
@@ -75,6 +76,7 @@ export type Database = {
         Insert: {
           age?: number | null;
           avatar_url?: string | null;
+          bmi?: number | null;
           created_at?: string | null;
           email: string;
           full_name: string;
@@ -90,6 +92,7 @@ export type Database = {
         Update: {
           age?: number | null;
           avatar_url?: string | null;
+          bmi?: number | null;
           created_at?: string | null;
           email?: string;
           full_name?: string;

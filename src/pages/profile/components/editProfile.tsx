@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useNutritionCalculator from "@/hooks/useNutritionCalculator";
 import AvatarComp from "@/pages/profile/components/avatar";
 import { useEditProfile } from "@/react-query/mutation/edit/edit";
 import { useGetProfile } from "@/react-query/query/profile/profile";
@@ -33,7 +34,16 @@ const Profile = () => {
   const userId = user?.user?.id;
   const { t } = useTranslation();
   const queryclient = useQueryClient();
-  const { register, handleSubmit, formState, setValue } = useForm<Profile>();
+  const { register, handleSubmit, formState, setValue, watch } =
+    useForm<Profile>();
+
+  const watchedValues = watch();
+  const { bmi, dailyCalories, carbs, protein, fats } = useNutritionCalculator({
+    sex: watchedValues?.sex?.toString() || "",
+    age: watchedValues?.age || 0,
+    height: watchedValues?.height || 0,
+    weight: watchedValues?.weight || 0,
+  });
 
   // Fetch profile
   const { data: userProfile, isLoading } = useGetProfile({
@@ -45,6 +55,7 @@ const Profile = () => {
   };
 
   const { mutate: updateProfile } = useEditProfile();
+  console.log(userProfile);
 
   const onSubmit: SubmitHandler<Profile> = (fieldInputs) => {
     updateProfile(
@@ -54,12 +65,17 @@ const Profile = () => {
         email: user?.user.email ?? "",
         avatar_url,
         sex: fieldInputs.sex as string | null | undefined,
+        goal_calories: dailyCalories,
+        goal_carbs: carbs,
+        goal_fat: fats,
+        goal_protein: protein,
+        bmi,
       },
       {
         onSuccess: () => {
           queryclient.invalidateQueries({ queryKey: ["profileInfo", userId] });
         },
-      },
+      }
     );
   };
 
@@ -91,7 +107,7 @@ const Profile = () => {
               <Input
                 type="text"
                 placeholder={t(
-                  "profile-translation.profile.fields.namePlaceholder",
+                  "profile-translation.profile.fields.namePlaceholder"
                 )}
                 {...register("full_name", {
                   required: t("error-translation.mandatory"),
