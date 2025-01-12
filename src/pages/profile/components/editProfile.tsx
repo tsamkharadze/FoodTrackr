@@ -75,7 +75,7 @@ const Profile = () => {
         onSuccess: () => {
           queryclient.invalidateQueries({ queryKey: ["profileInfo", userId] });
         },
-      }
+      },
     );
   };
 
@@ -107,7 +107,7 @@ const Profile = () => {
               <Input
                 type="text"
                 placeholder={t(
-                  "profile-translation.profile.fields.namePlaceholder"
+                  "profile-translation.profile.fields.namePlaceholder",
                 )}
                 {...register("full_name", {
                   required: t("error-translation.mandatory"),
