@@ -60,7 +60,7 @@ const Profile = () => {
         onSuccess: () => {
           refetch();
         },
-      }
+      },
     );
   };
 
@@ -92,7 +92,7 @@ const Profile = () => {
               <Input
                 type="text"
                 placeholder={t(
-                  "profile-translation.profile.fields.namePlaceholder"
+                  "profile-translation.profile.fields.namePlaceholder",
                 )}
                 {...register("full_name", {
                   required: t("error-translation.mandatory"),

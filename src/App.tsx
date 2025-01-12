@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     if (user)
       getProfileInfo(user.user.id).then((res) =>
-        setUserProfile(res.data[0] || "")
+        setUserProfile(res.data[0] || ""),
       );
   }, [user, setUserProfile]);
   console.log(profile);
