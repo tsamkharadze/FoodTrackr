@@ -8,7 +8,7 @@ export const AllRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<DefaultLayout />}>
+        <Route path="/:lang" element={<DefaultLayout />}>
           {AUTH_ROUTES}
           {DASHBOARD_ROUTES}
         </Route>

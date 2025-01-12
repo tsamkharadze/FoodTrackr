@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
 
-export function ChangeLagunge() {
+export function ChangeLanguage() {
   const { i18n } = useTranslation();
 
   const changeLanguage = (language: string) => {
