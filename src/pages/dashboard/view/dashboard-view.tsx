@@ -5,9 +5,9 @@ import { MacronutrientsChart } from "../components/macronutrients-chart/macronut
 const DashboardView = () => {
   return (
     <>
+      <DashboardCalendar />
       <CaloriesChart />
       <MacronutrientsChart />
-      <DashboardCalendar />
       {/* <FoodList /> */}
     </>
   );

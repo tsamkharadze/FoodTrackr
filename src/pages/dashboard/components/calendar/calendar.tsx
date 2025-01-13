@@ -25,9 +25,10 @@ import {
 } from "@/components/ui/popover";
 import { toast } from "@/hooks/use-toast";
 import { useGetFoods } from "@/react-query/query/profile/food";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { foodDiaryAtom } from "@/store/auth";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 const FormSchema = z.object({
   dob: z.date({
@@ -36,27 +37,29 @@ const FormSchema = z.object({
 });
 
 export function DashboardCalendar() {
-  const [foodDiary, setFoodDiary] = useAtom(foodDiaryAtom);
+  const setFoodDiary = useSetAtom(foodDiaryAtom);
   const queryClient = useQueryClient();
-  console.log(foodDiary);
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
+    defaultValues: {
+      dob: new Date(),
+    },
     resolver: zodResolver(FormSchema),
   });
   const watchedDate = form.watch("dob");
   const date = dayjs(watchedDate).format("YYYY-MM-DD");
   const { data: foodData } = useGetFoods(date ?? "");
+  useEffect(() => {
+    if (foodData?.food_diary) {
+      setFoodDiary(foodData.food_diary);
+    }
+  }, [foodData, setFoodDiary]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const formattedDate = dayjs(data.dob).format("YYYY-MM-DD");
 
-    // First invalidate and wait for the new data
     await queryClient.invalidateQueries({ queryKey: ["daily-food"] });
-
-    // Then update the food diary state with the latest data
-    if (foodData?.food_diary) {
-      setFoodDiary(foodData.food_diary);
-    }
 
     toast({
       title: "Date selected",
@@ -73,14 +76,14 @@ export function DashboardCalendar() {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Select Date</FormLabel>
-              <Popover>
+              <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
                       variant={"outline"}
                       className={cn(
                         "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground",
+                        !field.value && "text-muted-foreground"
                       )}
                     >
                       {field.value ? (
@@ -96,7 +99,10 @@ export function DashboardCalendar() {
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={(selectedDate) => {
+                      field.onChange(selectedDate);
+                      setCalendarOpen(false);
+                    }}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
                     }
