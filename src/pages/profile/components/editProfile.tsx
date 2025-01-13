@@ -16,17 +16,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 import useNutritionCalculator from "@/hooks/useNutritionCalculator";
 import AvatarComp from "@/pages/profile/components/avatar";
 import { useEditProfile } from "@/react-query/mutation/edit/edit";
 import { useGetProfile } from "@/react-query/query/profile/profile";
 import { userAtom } from "@/store/auth";
-import type { Profile } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileSchema, type ProfileFormData } from "@/lib/validations/profile";
 
 const Profile = () => {
   const [avatar_url, setAvatar] = useState("");
@@ -34,8 +36,20 @@ const Profile = () => {
   const userId = user?.user?.id;
   const { t } = useTranslation();
   const queryclient = useQueryClient();
-  const { register, handleSubmit, formState, setValue, watch } =
-    useForm<Profile>();
+  const { toast } = useToast();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      sex: "Male",
+    },
+  });
 
   const watchedValues = watch();
   const { bmi, dailyCalories, carbs, protein, fats } = useNutritionCalculator({
@@ -45,7 +59,6 @@ const Profile = () => {
     weight: watchedValues?.weight || 0,
   });
 
-  // Fetch profile
   const { data: userProfile, isLoading } = useGetProfile({
     userId: userId as string,
   });
@@ -55,16 +68,14 @@ const Profile = () => {
   };
 
   const { mutate: updateProfile } = useEditProfile();
-  console.log(userProfile);
 
-  const onSubmit: SubmitHandler<Profile> = (fieldInputs) => {
+  const onSubmit = (data: ProfileFormData) => {
     updateProfile(
       {
-        ...fieldInputs,
+        ...data,
         id: userId ?? "",
         email: user?.user.email ?? "",
         avatar_url,
-        sex: fieldInputs.sex as string | null | undefined,
         goal_calories: dailyCalories,
         goal_carbs: carbs,
         goal_fat: fats,
@@ -74,8 +85,19 @@ const Profile = () => {
       {
         onSuccess: () => {
           queryclient.invalidateQueries({ queryKey: ["profileInfo", userId] });
+          toast({
+            title: "Success",
+            description: "Profile updated successfully",
+          });
         },
-      },
+        onError: () => {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Failed to update profile",
+          });
+        },
+      }
     );
   };
 
@@ -95,95 +117,88 @@ const Profile = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
           <CardContent>
             <div className="space-y-1">
-              {/* Full Name */}
               <Label htmlFor="nameEn">
                 {t("profile-translation.profile.fields.name")}
               </Label>
-              {formState.errors.full_name && (
-                <div className="text-red-500">
-                  {formState.errors.full_name.message}
+              {errors.full_name && (
+                <div className="text-sm font-medium text-destructive">
+                  {errors.full_name.message}
                 </div>
               )}
               <Input
+                id="nameEn"
                 type="text"
                 placeholder={t(
-                  "profile-translation.profile.fields.namePlaceholder",
+                  "profile-translation.profile.fields.namePlaceholder"
                 )}
-                {...register("full_name", {
-                  required: t("error-translation.mandatory"),
-                  value: userProfile?.full_name || "",
-                })}
+                {...register("full_name")}
+                defaultValue={userProfile?.full_name || ""}
               />
             </div>
 
-            {/* Age */}
             <div className="space-y-1">
               <Label htmlFor="age">Age</Label>
-              {formState.errors.age && (
-                <div className="text-red-500">
-                  {formState.errors.age.message}
+              {errors.age && (
+                <div className="text-sm font-medium text-destructive">
+                  {errors.age.message}
                 </div>
               )}
               <Input
+                id="age"
                 type="number"
                 placeholder="Enter your age"
-                {...register("age", {
-                  required: "Age is required",
-                  valueAsNumber: true,
-                  value: userProfile?.age || undefined,
-                })}
+                {...register("age", { valueAsNumber: true })}
+                defaultValue={userProfile?.age || undefined}
               />
             </div>
 
-            {/* Height */}
             <div className="space-y-1">
               <Label htmlFor="height">Height (cm)</Label>
-              {formState.errors.height && (
-                <div className="text-red-500">
-                  {formState.errors.height.message}
+              {errors.height && (
+                <div className="text-sm font-medium text-destructive">
+                  {errors.height.message}
                 </div>
               )}
               <Input
+                id="height"
                 type="number"
                 placeholder="Enter your height in cm"
-                {...register("height", {
-                  required: "Height is required",
-                  valueAsNumber: true,
-                  value: userProfile?.height || undefined,
-                })}
+                {...register("height", { valueAsNumber: true })}
+                defaultValue={userProfile?.height || undefined}
               />
             </div>
 
-            {/* Weight */}
             <div className="space-y-1">
               <Label htmlFor="weight">Weight (kg)</Label>
-              {formState.errors.weight && (
-                <div className="text-red-500">
-                  {formState.errors.weight.message}
+              {errors.weight && (
+                <div className="text-sm font-medium text-destructive">
+                  {errors.weight.message}
                 </div>
               )}
               <Input
+                id="weight"
                 type="number"
                 placeholder="Enter your weight in kg"
-                {...register("weight", {
-                  required: "Weight is required",
-                  valueAsNumber: true,
-                  value: userProfile?.weight || undefined,
-                })}
+                {...register("weight", { valueAsNumber: true })}
+                defaultValue={userProfile?.weight || undefined}
               />
             </div>
 
-            {/* Sex */}
-            <div>
-              <Label htmlFor="sex" className="block mb-1">
-                Sex
-              </Label>
+            <div className="space-y-1">
+              <Label htmlFor="sex">Sex</Label>
+              {errors.sex && (
+                <div className="text-sm font-medium text-destructive">
+                  {errors.sex.message}
+                </div>
+              )}
               <Select
-                onValueChange={(value) => setValue("sex", value)}
+                onValueChange={(value) =>
+                  setValue("sex", value as "Male" | "Female")
+                }
                 defaultValue={userProfile?.sex?.toString() || "Male"}
               >
                 <SelectTrigger id="sex">
-                  <SelectValue placeholder={userProfile?.sex} />
+                  <SelectValue placeholder="Select your sex" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Male">Male</SelectItem>
@@ -197,7 +212,7 @@ const Profile = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit">Confirm</Button>
+            <Button type="submit">Save Changes</Button>
           </CardFooter>
         </form>
       </Card>
