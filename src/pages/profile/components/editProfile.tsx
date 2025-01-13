@@ -97,7 +97,7 @@ const Profile = () => {
             description: "Failed to update profile",
           });
         },
-      }
+      },
     );
   };
 
@@ -129,7 +129,7 @@ const Profile = () => {
                 id="nameEn"
                 type="text"
                 placeholder={t(
-                  "profile-translation.profile.fields.namePlaceholder"
+                  "profile-translation.profile.fields.namePlaceholder",
                 )}
                 {...register("full_name")}
                 defaultValue={userProfile?.full_name || ""}
