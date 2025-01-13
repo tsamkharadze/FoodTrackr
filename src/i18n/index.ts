@@ -12,6 +12,8 @@ import profileKa from "./ka/profile.json";
 import profileEn from "./en/profile.json";
 import ErrorEn from "./en/errors.json";
 import ErrorKa from "./ka/errors.json";
+import dashboardEn from "./en/dashboard.json";
+import dashboardKa from "./ka/dashboard.json";
 
 // Initialize language detector before i18next
 const languageDetector = new LngDetector();
@@ -34,6 +36,7 @@ i18n
           "register-trans": registerKa,
           "profile-translation": profileKa,
           "error-translation": ErrorKa,
+          "dashboard-translation": dashboardKa,
         },
       },
       en: {
@@ -43,6 +46,7 @@ i18n
           "register-trans": registerEn,
           "profile-translation": profileEn,
           "error-translation": ErrorEn,
+          "dashboard-translation": dashboardEn,
         },
       },
     },

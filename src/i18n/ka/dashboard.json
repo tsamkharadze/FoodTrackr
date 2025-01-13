@@ -1,0 +1,16 @@
+{
+  "charts": {
+    "calories-title": "კალორიები",
+    "calories-description": "რეკომენდებული კალორიები",
+    "macronutrients-title": "მაკრონუტრიენტები",
+    "macronutrients-description": "დღეს",
+    "carb": "ნახშირწყალი",
+    "fat": "ცხიმი",
+    "protein": "ცილა"
+  },
+
+  "buttons": {
+    "confirm": "Confirm"
+  },
+  "loading": "Loading"
+}

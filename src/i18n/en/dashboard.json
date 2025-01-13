@@ -1,0 +1,16 @@
+{
+  "charts": {
+    "calories-title": "Calories",
+    "calories-description": "Recomended Calories",
+    "macronutrients-title": "Macronutrients",
+    "macronutrients-description": "Today",
+    "carb": "Carb",
+    "fat": "Fat",
+    "protein": "protein"
+  },
+
+  "buttons": {
+    "confirm": "Confirm"
+  },
+  "loading": "Loading"
+}

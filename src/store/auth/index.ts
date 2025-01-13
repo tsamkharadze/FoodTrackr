@@ -6,3 +6,6 @@ export const userAtom = atom<Session | null>(null);
 export const profileAtom = atom<
   Database["public"]["Tables"]["user_profiles"]["Insert"] | null
 >(null);
+export const foodDiaryAtom = atom<
+  Database["public"]["Tables"]["food_diary"]["Row"][] | null
+>();
