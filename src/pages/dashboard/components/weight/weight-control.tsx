@@ -1,6 +1,6 @@
 "use client";
 
-import { Scale } from "lucide-react";
+import { Minus, Plus, Scale } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import { useAtomValue } from "jotai";
 import { profileAtom } from "@/store/auth";
@@ -19,6 +19,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 // BMI ranges
 const BMI_RANGES = {
@@ -29,13 +32,20 @@ const BMI_RANGES = {
 };
 
 export function WeightStatusChart() {
+  const { t, i18n } = useTranslation();
   const profile = useAtomValue(profileAtom);
+  const you = i18n.language === "ka" ? "შენ" : "you";
+  const [diff, setDiff] = useState(0);
+  const weight = (profile?.weight ?? 0) + diff;
 
   // Calculate which category the current BMI falls into
   const getBMICategory = (bmi: number) => {
-    if (bmi < BMI_RANGES.UNDERWEIGHT.max) return "Underweight";
-    if (bmi < BMI_RANGES.NORMAL.max) return "Normal";
-    if (bmi < BMI_RANGES.OVERWEIGHT.max) return "Overweight";
+    if (bmi < BMI_RANGES.UNDERWEIGHT.max)
+      return t("dashboard-translation.charts.underweight");
+    if (bmi < BMI_RANGES.NORMAL.max)
+      return t("dashboard-translation.charts.normal");
+    if (bmi < BMI_RANGES.OVERWEIGHT.max)
+      return t("dashboard-translation.charts.overweight");
     return "Obese";
   };
 
@@ -46,39 +56,45 @@ export function WeightStatusChart() {
     {
       name: "BMI Range",
       underweight: BMI_RANGES.UNDERWEIGHT.max,
-      You: profile?.bmi,
+      [you]: profile?.bmi ?? 0,
       overweight: BMI_RANGES.OVERWEIGHT.min,
       obese: BMI_RANGES.OBESE.max - BMI_RANGES.OVERWEIGHT.max,
     },
   ];
+  const handleChangeWeight = (difference: number) => {
+    setDiff((prevWeight) => prevWeight + difference);
+  };
+
+  // Log the weight to verify
 
   const chartConfig = {
     overweight: {
-      label: "Overweight",
+      label: t("dashboard-translation.charts.overweight"),
       color: BMI_RANGES.OVERWEIGHT.color,
     },
     underweight: {
-      label: "Underweight",
+      label: t("dashboard-translation.charts.underweight"),
       color: BMI_RANGES.UNDERWEIGHT.color,
     },
     normal: {
-      label: "Normal",
+      label: t("dashboard-translation.charts.normal"),
       color: BMI_RANGES.NORMAL.color,
-    },
-
-    obese: {
-      label: "Obese",
-      color: BMI_RANGES.OBESE.color,
     },
   } satisfies ChartConfig;
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Weight Status</CardTitle>
-        <CardDescription>BMI Category: {category}</CardDescription>
+        <CardTitle>{t("dashboard-translation.charts.weight-status")}</CardTitle>
+        <CardDescription>
+          {t("dashboard-translation.charts.bmi-category")} : {category}
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
+        <Button onClick={() => handleChangeWeight(-0.5)}>
+          <Minus />
+        </Button>
+
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square w-full max-w-[250px]"
@@ -105,7 +121,7 @@ export function WeightStatusChart() {
                           y={(viewBox.cy || 0) - 16}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {profile?.weight} kg
+                          {weight} kg
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -127,7 +143,7 @@ export function WeightStatusChart() {
               className="stroke-transparent stroke-2"
             />
             <RadialBar
-              dataKey="You"
+              dataKey={you}
               fill={BMI_RANGES.NORMAL.color}
               cornerRadius={5}
               className="stroke-transparent stroke-2"
@@ -140,14 +156,16 @@ export function WeightStatusChart() {
             />
           </RadialBarChart>
         </ChartContainer>
+
+        <Button onClick={() => handleChangeWeight(+0.5)}>
+          <Plus />
+        </Button>
       </CardContent>
+
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Current Status: {category} <Scale className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          BMI Categories: Underweight (&lt;18.5), Normal (18.5-24.9), Overweight
-          (25-29.9), Obese (≥30)
+          {t("dashboard-translation.charts.current-status")} : {category}{" "}
+          <Scale className="h-4 w-4" />
         </div>
       </CardFooter>
     </Card>

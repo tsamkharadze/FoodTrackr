@@ -6,7 +6,15 @@
     "macronutrients-description": "Today",
     "carb": "Carb",
     "fat": "Fat",
-    "protein": "protein"
+    "protein": "protein",
+    "underweight": "Underweight",
+    "normal": "Normal",
+    "overweight": "Overweight",
+    "weight-status": "Weight Status",
+    "bmi-category": "BMI Category ",
+    "current-status": "Current Status",
+    "select-date": "Select Date",
+    "calendar-description": "Select a date to view food diary"
   },
 
   "buttons": {

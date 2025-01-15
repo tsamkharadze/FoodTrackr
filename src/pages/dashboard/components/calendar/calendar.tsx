@@ -29,6 +29,7 @@ import { useSetAtom } from "jotai";
 import { foodDiaryAtom } from "@/store/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const FormSchema = z.object({
   dob: z.date({
@@ -37,6 +38,7 @@ const FormSchema = z.object({
 });
 
 export function DashboardCalendar() {
+  const { t } = useTranslation();
   const setFoodDiary = useSetAtom(foodDiaryAtom);
   const queryClient = useQueryClient();
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -75,7 +77,9 @@ export function DashboardCalendar() {
           name="dob"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Select Date</FormLabel>
+              <FormLabel>
+                {t("dashboard-translation.charts.select-date")}
+              </FormLabel>
               <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -111,7 +115,7 @@ export function DashboardCalendar() {
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                Select a date to view food diary
+                {t("dashboard-translation.charts.calendar-description")}{" "}
               </FormDescription>
               <FormMessage />
             </FormItem>

@@ -6,7 +6,15 @@
     "macronutrients-description": "დღეს",
     "carb": "ნახშირწყალი",
     "fat": "ცხიმი",
-    "protein": "ცილა"
+    "protein": "ცილა",
+    "underweight": "სიგამხდრე",
+    "normal": "ნორმა",
+    "overweight": "ჭარბი წონა",
+    "weight-status": "წონის სტატუსი",
+    "bmi-category": "BMI კატეგორია ",
+    "current-status": "მიმდინარე სტატუსი",
+    "select-date": "აირჩიეთ თარიღი",
+    "calendar-description": "აირჩიეთ თარიღი ჩანაწერის საჩვენებლად"
   },
 
   "buttons": {
