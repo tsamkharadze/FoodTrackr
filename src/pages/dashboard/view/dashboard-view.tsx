@@ -1,6 +1,7 @@
 import { DashboardCalendar } from "../components/calendar/calendar";
 import { CaloriesChart } from "../components/calories-chart/calories-chart";
 import { MacronutrientsChart } from "../components/macronutrients-chart/macronutrients-chart";
+import { RecentMeals } from "../components/recent-meals/recent-meals";
 import { WeightStatusChart } from "../components/weight/weight-control";
 
 const DashboardView = () => {
@@ -10,6 +11,7 @@ const DashboardView = () => {
       <DashboardCalendar />
       <CaloriesChart />
       <MacronutrientsChart />
+      <RecentMeals />
       {/* <FoodList /> */}
     </>
   );
