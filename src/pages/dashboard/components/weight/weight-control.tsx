@@ -1,5 +1,3 @@
-"use client";
-
 import { Minus, Plus, Scale } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import { useAtomValue } from "jotai";
@@ -21,7 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useWeightUpdate } from "@/react-query/mutation/weight-update/useWeightUpdate";
 
 // BMI ranges
 const BMI_RANGES = {
@@ -35,8 +33,8 @@ export function WeightStatusChart() {
   const { t, i18n } = useTranslation();
   const profile = useAtomValue(profileAtom);
   const you = i18n.language === "ka" ? "შენ" : "you";
-  const [diff, setDiff] = useState(0);
-  const weight = (profile?.weight ?? 0) + diff;
+
+  const { weight, handleWeightChange } = useWeightUpdate(profile?.weight ?? 0);
 
   // Calculate which category the current BMI falls into
   const getBMICategory = (bmi: number) => {
@@ -61,11 +59,6 @@ export function WeightStatusChart() {
       obese: BMI_RANGES.OBESE.max - BMI_RANGES.OVERWEIGHT.max,
     },
   ];
-  const handleChangeWeight = (difference: number) => {
-    setDiff((prevWeight) => prevWeight + difference);
-  };
-
-  // Log the weight to verify
 
   const chartConfig = {
     overweight: {
@@ -91,7 +84,10 @@ export function WeightStatusChart() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
-        <Button onClick={() => handleChangeWeight(-0.5)}>
+        <Button
+          onClick={() => handleWeightChange(-0.5)}
+          // disabled={isLoading}
+        >
           <Minus />
         </Button>
 
@@ -157,7 +153,10 @@ export function WeightStatusChart() {
           </RadialBarChart>
         </ChartContainer>
 
-        <Button onClick={() => handleChangeWeight(+0.5)}>
+        <Button
+          onClick={() => handleWeightChange(0.5)}
+          // disabled={isLoading}
+        >
           <Plus />
         </Button>
       </CardContent>
