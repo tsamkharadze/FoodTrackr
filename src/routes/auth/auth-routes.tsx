@@ -1,8 +1,14 @@
-import LoginView from "@/pages/login/view/login-view";
+/* eslint-disable react-refresh/only-export-components */
+
 import { AUTH_PATHS } from "./auth.enum";
 import { Route } from "react-router-dom";
-import RegistrationView from "@/pages/register/view/registration-view";
-import ProfileView from "@/pages/profile/view/profile-view";
+import { lazy, Suspense } from "react";
+
+const LoginView = lazy(() => import("@/pages/login/view/login-view"));
+const RegistrationView = lazy(
+  () => import("@/pages/register/view/registration-view"),
+);
+const ProfileView = lazy(() => import("@/pages/profile/view/profile-view"));
 
 export const AUTH_ROUTES = [
   <Route
@@ -10,7 +16,9 @@ export const AUTH_ROUTES = [
     path={AUTH_PATHS.LOGIN_PAGE}
     element={
       // <LogoutGuard>
-      <LoginView />
+      <Suspense>
+        <LoginView />
+      </Suspense>
       // </LogoutGuard>
     }
   />,
@@ -19,7 +27,9 @@ export const AUTH_ROUTES = [
     path={AUTH_PATHS.REGISTER_PAGE}
     element={
       // <LogoutGuard>
-      <RegistrationView />
+      <Suspense>
+        <RegistrationView />
+      </Suspense>
       // </LogoutGuard>
     }
   />,
@@ -28,7 +38,9 @@ export const AUTH_ROUTES = [
     path={AUTH_PATHS.USER_PROFILE}
     element={
       // <LogoutGuard>
-      <ProfileView />
+      <Suspense>
+        <ProfileView />
+      </Suspense>
       // </LogoutGuard>
     }
   />,

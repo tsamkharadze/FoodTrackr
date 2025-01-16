@@ -5,6 +5,7 @@ import { supabase } from "./supabase";
 import { useAtom, useSetAtom } from "jotai";
 import { profileAtom, userAtom } from "./store/auth";
 import { useGetProfile } from "./react-query/query/profile/profile";
+import { Spinner } from "./components/ui/spinner";
 
 function App() {
   const [user, setUser] = useAtom(userAtom);
@@ -45,7 +46,7 @@ function App() {
   }, [data, setUserProfile]);
 
   if (isLoading) {
-    return <div>loading</div>;
+    return <Spinner size={"large"} />;
   }
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">

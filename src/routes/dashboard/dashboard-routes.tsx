@@ -1,7 +1,13 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { Route } from "react-router-dom";
 import { DASHBOARD_PATHS } from "./dashboard.enum";
-import BmiCalcView from "@/pages/bmi-calc/views/bmi-calc-view";
-import DashboardView from "@/pages/dashboard/view/dashboard-view";
+import { lazy } from "react";
+
+const BmiCalcView = lazy(() => import("@/pages/bmi-calc/views/bmi-calc-view"));
+const DashboardView = lazy(
+  () => import("@/pages/dashboard/view/dashboard-view"),
+);
 
 export const DASHBOARD_ROUTES = [
   <Route

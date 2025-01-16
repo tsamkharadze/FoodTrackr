@@ -26,7 +26,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { useGetFoods } from "@/react-query/query/profile/food";
 import { useSetAtom } from "jotai";
-import { foodDiaryAtom } from "@/store/auth";
+import { foodDiaryAtom, selectedDateAtom } from "@/store/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,6 +42,7 @@ export function DashboardCalendar() {
   const setFoodDiary = useSetAtom(foodDiaryAtom);
   const queryClient = useQueryClient();
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const setSelectedDate = useSetAtom(selectedDateAtom);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
@@ -61,6 +62,7 @@ export function DashboardCalendar() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const formattedDate = dayjs(data.dob).format("YYYY-MM-DD");
+    setSelectedDate(formattedDate);
 
     await queryClient.invalidateQueries({ queryKey: ["daily-food"] });
 

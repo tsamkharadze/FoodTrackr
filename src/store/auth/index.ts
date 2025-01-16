@@ -9,3 +9,4 @@ export const profileAtom = atom<
 export const foodDiaryAtom = atom<
   Database["public"]["Tables"]["food_diary"]["Row"][] | null
 >();
+export const selectedDateAtom = atom("");

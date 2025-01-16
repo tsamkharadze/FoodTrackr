@@ -15,12 +15,11 @@ import {
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { useAtomValue } from "jotai";
-import { userAtom } from "@/store/auth";
+import { selectedDateAtom, userAtom } from "@/store/auth";
 import { useFoodSearch } from "@/react-query/query/profile/food";
 import { useAddFoodToDiary } from "@/react-query/mutation/food/food-mutations";
 import { Food } from "@/types/food";
 import useCalculateMealNutrients from "@/hooks/useCalculateMealNutrients";
-import useToday from "@/hooks/useToday";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import {
@@ -42,7 +41,7 @@ export function FoodDiaryEntry() {
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [quantity, setQuantity] = useState<number>(100);
   const [foodType, setFoodType] = useState("");
-  const today = useToday();
+  const selectedDate = useAtomValue(selectedDateAtom);
   const user = useAtomValue(userAtom);
 
   const { data: foods = [], isLoading } = useFoodSearch(search, language);
@@ -67,7 +66,7 @@ export function FoodDiaryEntry() {
       {
         user_id: user.user.id,
         food_name: selectedFood.name_en || "Unknown Food",
-        date: today,
+        date: selectedDate,
         calories,
         protein,
         fat,
@@ -86,6 +85,7 @@ export function FoodDiaryEntry() {
     setSelectedFood(null);
     setQuantity(100);
     setSearch("");
+    setFoodType("");
   };
 
   return (
@@ -130,7 +130,10 @@ export function FoodDiaryEntry() {
             </PopoverContent>
           </Popover>
         </div>
-        <Select onValueChange={(value) => setFoodType(value || "")}>
+        <Select
+          value={foodType}
+          onValueChange={(value) => setFoodType(value || "")}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Meal type" />
           </SelectTrigger>
@@ -147,8 +150,9 @@ export function FoodDiaryEntry() {
         <div className="w-32">
           <Input
             type="number"
-            value={quantity}
+            value={quantity === 0 ? "" : quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
+            step={10}
             min={0}
             placeholder="Grams"
           />
@@ -156,7 +160,7 @@ export function FoodDiaryEntry() {
 
         <Button
           onClick={handleAddFood}
-          disabled={!selectedFood || isAddLoading}
+          disabled={!selectedFood || isAddLoading || !foodType}
         >
           Add to Diary
         </Button>
