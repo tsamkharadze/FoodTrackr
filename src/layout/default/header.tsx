@@ -53,7 +53,11 @@ export const Header = () => {
       href: "/food-diary",
       icon: UtensilsCrossed,
     },
-    { name: t("header-trans.weight"), href: "/weight", icon: Scale },
+    {
+      name: t("header-trans.bmi-calculator"),
+      href: `/${lang}/${DASHBOARD_PATHS.BMI_CALC}`,
+      icon: Scale,
+    },
     {
       name: t("header-trans.profile"),
       href: `/${lang}/${AUTH_PATHS.USER_PROFILE}`,

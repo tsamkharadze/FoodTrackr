@@ -25,7 +25,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const { handleSubmit, register } = useForm<LoginFormInputs>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -94,7 +95,7 @@ export function LoginForm({
               <a
                 href="#"
                 className="underline underline-offset-4"
-                onClick={() => navigate(AUTH_PATHS.REGISTER_PAGE)}
+                onClick={() => navigate(`/${lang}/${AUTH_PATHS.REGISTER_PAGE}`)}
               >
                 {t("login-trans.signup-link")}
               </a>

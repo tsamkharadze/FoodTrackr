@@ -24,7 +24,8 @@ export function RegisterForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const { handleSubmit, register } = useForm<RegisterFormInputs>();
   const navigate = useNavigate();
 
@@ -83,7 +84,7 @@ export function RegisterForm({
               <a
                 href="#"
                 className="underline underline-offset-4"
-                onClick={() => navigate(AUTH_PATHS.LOGIN_PAGE)}
+                onClick={() => navigate(`/${lang}/${AUTH_PATHS.LOGIN_PAGE}`)}
               >
                 {t("register-trans.signup-link")}
               </a>
