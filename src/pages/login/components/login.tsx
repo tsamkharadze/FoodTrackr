@@ -11,15 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignIn } from "@/react-query/mutation/authorization";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { AUTH_PATHS } from "@/routes/auth/auth.enum";
-
-interface LoginFormInputs {
-  email: string;
-  password: string;
-}
+import { LoginFormInputs, loginSchema } from "@/lib/validations/login.schema";
 
 export function LoginForm({
   className,
@@ -27,7 +24,6 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
-  const { handleSubmit, register } = useForm<LoginFormInputs>();
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
@@ -37,8 +33,15 @@ export function LoginForm({
 
   const { mutate: handleLogin } = useSignIn();
 
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
+    resolver: zodResolver(loginSchema),
+  });
+
   const onSubmit = (data: LoginFormInputs) => {
-    console.log(data);
     handleLogin(data, {
       onSuccess: () => {
         navigate(toNavigate);
@@ -63,9 +66,11 @@ export function LoginForm({
                   id="email"
                   type="email"
                   placeholder={t("login-trans.email-placeholder")}
-                  required
                   {...register("email")}
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email.message}</p>
+                )}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
@@ -82,9 +87,13 @@ export function LoginForm({
                 <Input
                   id="password"
                   type="password"
-                  required
                   {...register("password")}
                 />
+                {errors.password && (
+                  <p className="text-sm text-red-500">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
               <Button type="submit" className="w-full">
                 {t("login-trans.login-button")}

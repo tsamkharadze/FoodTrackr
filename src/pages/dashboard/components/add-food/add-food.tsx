@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useToday from "@/hooks/useToday";
 
 export function FoodDiaryEntry() {
   const { i18n } = useTranslation();
@@ -43,6 +44,7 @@ export function FoodDiaryEntry() {
   const [foodType, setFoodType] = useState("");
   const selectedDate = useAtomValue(selectedDateAtom);
   const user = useAtomValue(userAtom);
+  const today = useToday();
 
   const { data: foods = [], isLoading } = useFoodSearch(search, language);
   const { mutate: addFoodMutation, status } = useAddFoodToDiary();
@@ -52,7 +54,7 @@ export function FoodDiaryEntry() {
     setSelectedFood(food);
     setOpen(false);
   };
-  console.log(foodType);
+  console.log(selectedDate);
 
   const { calories, carbs, fat, protein } = useCalculateMealNutrients(
     selectedFood,
@@ -66,7 +68,7 @@ export function FoodDiaryEntry() {
       {
         user_id: user.user.id,
         food_name: selectedFood.name_en || "Unknown Food",
-        date: selectedDate,
+        date: selectedDate ? selectedDate : today,
         calories,
         protein,
         fat,

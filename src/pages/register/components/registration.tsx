@@ -11,14 +11,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignUp } from "@/react-query/mutation/authorization";
 import { useNavigate } from "react-router-dom";
 import { AUTH_PATHS } from "@/routes/auth/auth.enum";
-
-interface RegisterFormInputs {
-  email: string;
-  password: string;
-}
+import {
+  RegisterFormInputs,
+  registerSchema,
+} from "@/lib/validations/register.schema";
 
 export function RegisterForm({
   className,
@@ -26,7 +26,15 @@ export function RegisterForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
-  const { handleSubmit, register } = useForm<RegisterFormInputs>();
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<RegisterFormInputs>({
+    resolver: zodResolver(registerSchema),
+  });
+
   const navigate = useNavigate();
 
   const { mutate: handleSignUp } = useSignUp();
@@ -35,7 +43,7 @@ export function RegisterForm({
     console.log(data);
     handleSignUp(data, {
       onSuccess: () => {
-        console.log("user succesfully registered");
+        console.log("User successfully registered");
       },
     });
   };
@@ -58,22 +66,26 @@ export function RegisterForm({
                   id="email"
                   type="email"
                   placeholder={t("register-trans.email-placeholder")}
-                  required
                   {...register("email")}
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email.message}</p>
+                )}
               </div>
               <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">
-                    {t("register-trans.password-label")}
-                  </Label>
-                </div>
+                <Label htmlFor="password">
+                  {t("register-trans.password-label")}
+                </Label>
                 <Input
                   id="password"
                   type="password"
-                  required
                   {...register("password")}
                 />
+                {errors.password && (
+                  <p className="text-sm text-red-500">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
               <Button type="submit" className="w-full">
                 {t("register-trans.login-button")}
