@@ -3,8 +3,8 @@
 import { AUTH_PATHS } from "./auth.enum";
 import { Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { LogoutGuard } from "@/route-guards/logout";
-import { AuthGuard } from "@/route-guards/auth";
+import { LogoutGuard } from "@/guards/route-guards/logout";
+import { AuthGuard } from "@/guards/route-guards/auth";
 
 const LoginView = lazy(() => import("@/pages/login/view/login-view"));
 const RegistrationView = lazy(

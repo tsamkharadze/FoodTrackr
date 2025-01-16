@@ -3,8 +3,8 @@
 import { Route } from "react-router-dom";
 import { DASHBOARD_PATHS } from "./dashboard.enum";
 import { lazy, Suspense } from "react";
-import { AuthGuard } from "@/route-guards/auth";
-import { LogoutGuard } from "@/route-guards/logout";
+import { AuthGuard } from "@/guards/route-guards/auth";
+import { LogoutGuard } from "@/guards/route-guards/logout";
 
 const HomeView = lazy(() => import("@/pages/home/view/home-view"));
 const BmiCalcView = lazy(() => import("@/pages/bmi-calc/views/bmi-calc-view"));
