@@ -29,7 +29,7 @@
     "@tanstack/react-query": "^5.62.15",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "cmdk": "^1.0.0",
+    "cmdk": "^1.0.4",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "i18next-browser-languagedetector": "^8.0.2",
