@@ -8,12 +8,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 export function ChangeLanguage() {
   const { i18n } = useTranslation();
   const { lang } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (lang === "ka" || lang === "en") {
       i18n.changeLanguage(lang);
@@ -22,6 +24,7 @@ export function ChangeLanguage() {
 
   const changeLanguage = (language: string) => {
     i18n.changeLanguage(language);
+    navigate(`/${language}${window.location.pathname.slice(3)}`);
   };
   return (
     <DropdownMenu>

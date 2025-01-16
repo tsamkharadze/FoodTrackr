@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useToday from "@/hooks/useToday";
+import { toast } from "@/hooks/use-toast";
 
 export function FoodDiaryEntry() {
   const { i18n } = useTranslation();
@@ -79,6 +80,10 @@ export function FoodDiaryEntry() {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
           queryClient.invalidateQueries({ queryKey: ["daily-food"] });
+          toast({
+            title: "Done",
+            description: "Meal added successfully",
+          });
         },
       },
     );
