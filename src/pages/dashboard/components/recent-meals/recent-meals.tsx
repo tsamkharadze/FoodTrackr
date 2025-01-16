@@ -14,18 +14,15 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export function RecentMeals() {
   const queryClient = useQueryClient();
-
   const recentMeals = useAtomValue(foodDiaryAtom);
-
   const { mutate, isPending } = useDeleteFoodFromDiary();
 
   const handleDeleteFoodFromDiary = (id: string) => {
     if (id) {
       mutate(id, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["daily-food"] });
-        },
-      }); // Pass the ID to the mutate function
+        onSuccess: () =>
+          queryClient.invalidateQueries({ queryKey: ["daily-food"] }),
+      });
     }
   };
 
@@ -39,7 +36,7 @@ export function RecentMeals() {
             <TableCell>Meal Type</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Calories</TableCell>
-            <TableCell>Actions</TableCell> {/* Add an Actions column */}
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -52,9 +49,7 @@ export function RecentMeals() {
               <TableCell>
                 <Button
                   disabled={isPending}
-                  onClick={() => {
-                    handleDeleteFoodFromDiary(meal.id);
-                  }}
+                  onClick={() => handleDeleteFoodFromDiary(meal.id)}
                 >
                   Delete
                 </Button>
