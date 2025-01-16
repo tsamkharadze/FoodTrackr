@@ -21,15 +21,29 @@ export const getDailyFood = async (
   return { food_diary, error };
 };
 export const searchFoods = async (query: string, lang: string) => {
-  const searcOption = lang === "ka" ? "name_ka" : "name_en";
-  const { data, error } = await supabase
-    .from("foods_database")
-    .select("*")
-    .ilike(searcOption, `%${query}%`)
-    .limit(10);
+  if (!query || query.length <= 2) {
+    return [];
+  }
 
-  if (error) throw error;
-  return data;
+  const searchOption = lang === "ka" ? "name_ka" : "name_en";
+
+  try {
+    const { data, error } = await supabase
+      .from("foods_database")
+      .select("*")
+      .ilike(searchOption, `%${query}%`)
+      .limit(10);
+
+    if (error) {
+      console.error("Error fetching foods:", error);
+      throw error;
+    }
+
+    return data ?? [];
+  } catch (error) {
+    console.error("Error during searchFoods:", error);
+    return [];
+  }
 };
 
 export const addFoodToDiary = async (

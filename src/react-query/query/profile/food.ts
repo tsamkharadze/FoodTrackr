@@ -13,5 +13,6 @@ export function useFoodSearch(query: string, searchOption: string) {
     queryKey: ["foods", query],
     queryFn: () => searchFoods(query, searchOption),
     enabled: query.length > 2,
+    initialData: [],
   });
 }

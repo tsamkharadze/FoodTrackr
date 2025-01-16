@@ -130,7 +130,7 @@ export function FoodDiaryEntry() {
             </PopoverContent>
           </Popover>
         </div>
-        <Select onValueChange={(value) => setFoodType(value)}>
+        <Select onValueChange={(value) => setFoodType(value || "")}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Meal type" />
           </SelectTrigger>
