@@ -40,8 +40,8 @@ export function useWeightUpdate(initialWeight: number) {
 
     return () => clearTimeout(timer);
   }, [weight, hasChanged]);
-  const { mutate: updateProfile } = useEditProfile();
-
+  const { mutate: updateProfile, status } = useEditProfile();
+  const isLoading = status === "pending" ? true : false;
   const { mutate: updateUserWeight } = useMutation({
     mutationKey: ["weightLogs"],
     mutationFn: async (newWeight: number) => {
@@ -75,7 +75,6 @@ export function useWeightUpdate(initialWeight: number) {
           },
         );
       }
-      queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
       queryClient.invalidateQueries({ queryKey: ["weightLogs"] });
       setHasChanged(false);
     },
@@ -96,5 +95,6 @@ export function useWeightUpdate(initialWeight: number) {
   return {
     weight,
     handleWeightChange,
+    isLoading,
   };
 }

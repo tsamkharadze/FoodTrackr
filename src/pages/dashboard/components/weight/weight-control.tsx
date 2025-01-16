@@ -34,7 +34,9 @@ export function WeightStatusChart() {
   const profile = useAtomValue(profileAtom);
   const you = i18n.language === "ka" ? "შენ" : "you";
 
-  const { weight, handleWeightChange } = useWeightUpdate(profile?.weight ?? 0);
+  const { weight, handleWeightChange, isLoading } = useWeightUpdate(
+    profile?.weight ?? 0,
+  );
 
   // Calculate which category the current BMI falls into
   const getBMICategory = (bmi: number) => {
@@ -84,10 +86,7 @@ export function WeightStatusChart() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
-        <Button
-          onClick={() => handleWeightChange(-0.5)}
-          // disabled={isLoading}
-        >
+        <Button onClick={() => handleWeightChange(-0.5)} disabled={isLoading}>
           <Minus />
         </Button>
 
@@ -153,10 +152,7 @@ export function WeightStatusChart() {
           </RadialBarChart>
         </ChartContainer>
 
-        <Button
-          onClick={() => handleWeightChange(0.5)}
-          // disabled={isLoading}
-        >
+        <Button onClick={() => handleWeightChange(0.5)} disabled={isLoading}>
           <Plus />
         </Button>
       </CardContent>

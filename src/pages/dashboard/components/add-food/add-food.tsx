@@ -124,18 +124,6 @@ export function FoodDiaryEntry() {
           Add to Diary
         </Button>
       </div>
-
-      {selectedFood && (
-        <div className="text-sm text-muted-foreground">
-          Selected: {selectedFood.name_en} - {quantity}g
-          {selectedFood.calories_per_100 && (
-            <span>
-              ({((selectedFood.calories_per_100 * quantity) / 100).toFixed(0)}{" "}
-              kcal)
-            </span>
-          )}
-        </div>
-      )}
     </div>
   );
 }
