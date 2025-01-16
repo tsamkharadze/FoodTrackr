@@ -57,3 +57,11 @@ export const addFoodToDiary = async (
   if (error) throw error;
   return data;
 };
+
+export const deleteFoodDiary = async (id: string) => {
+  const { error } = await supabase.from("food_diary").delete().eq("id", id);
+
+  if (error) {
+    console.error("Error deleting data:", error);
+  }
+};

@@ -1,5 +1,9 @@
-import { addFoodToDiary } from "@/supabase/foods/foods";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addFoodToDiary, deleteFoodDiary } from "@/supabase/foods/foods";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 export function useAddFoodToDiary() {
   const queryClient = useQueryClient();
@@ -9,5 +13,12 @@ export function useAddFoodToDiary() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["foodDiary"] });
     },
+  });
+}
+
+export function useDeleteFoodFromDiary() {
+  return useMutation({
+    mutationFn: deleteFoodDiary,
+    ...queryOptions,
   });
 }
