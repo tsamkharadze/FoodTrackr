@@ -8,10 +8,10 @@ export const useGetFoods = (date: string) => {
   });
 };
 
-export function useFoodSearch(query: string) {
+export function useFoodSearch(query: string, searchOption: string) {
   return useQuery({
     queryKey: ["foods", query],
-    queryFn: () => searchFoods(query),
+    queryFn: () => searchFoods(query, searchOption),
     enabled: query.length > 2,
   });
 }

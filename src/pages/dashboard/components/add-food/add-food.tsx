@@ -21,16 +21,31 @@ import { useAddFoodToDiary } from "@/react-query/mutation/food/food-mutations";
 import { Food } from "@/types/food";
 import useCalculateMealNutrients from "@/hooks/useCalculateMealNutrients";
 import useToday from "@/hooks/useToday";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function FoodDiaryEntry() {
+  const { i18n } = useTranslation();
+  const language = i18n.language === "ka" ? "ka" : "en";
+  const name = language === "ka" ? "name_ka" : "name_en";
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [quantity, setQuantity] = useState<number>(100);
+  const [foodType, setFoodType] = useState("");
   const today = useToday();
   const user = useAtomValue(userAtom);
 
-  const { data: foods = [], isLoading } = useFoodSearch(search);
+  const { data: foods = [], isLoading } = useFoodSearch(search, language);
   const { mutate: addFoodMutation, status } = useAddFoodToDiary();
   const isAddLoading = status === "pending";
 
@@ -38,6 +53,7 @@ export function FoodDiaryEntry() {
     setSelectedFood(food);
     setOpen(false);
   };
+  console.log(foodType);
 
   const { calories, carbs, fat, protein } = useCalculateMealNutrients(
     selectedFood,
@@ -47,16 +63,24 @@ export function FoodDiaryEntry() {
 
   const handleAddFood = () => {
     if (!selectedFood || !user) return;
-    addFoodMutation({
-      user_id: user.user.id,
-      food_name: selectedFood.name_en || "Unknown Food",
-      date: today,
-      calories,
-      protein,
-      fat,
-      carbs,
-      meal_type: "snacl",
-    });
+    addFoodMutation(
+      {
+        user_id: user.user.id,
+        food_name: selectedFood.name_en || "Unknown Food",
+        date: today,
+        calories,
+        protein,
+        fat,
+        carbs,
+        meal_type: foodType,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
+          queryClient.invalidateQueries({ queryKey: ["daily-food"] });
+        },
+      },
+    );
 
     // Reset form
     setSelectedFood(null);
@@ -76,7 +100,7 @@ export function FoodDiaryEntry() {
                 aria-expanded={open}
                 className="w-full justify-between"
               >
-                {selectedFood ? selectedFood.name_en : "Select food..."}
+                {selectedFood ? selectedFood[name] : "Select food..."}
                 <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -97,7 +121,7 @@ export function FoodDiaryEntry() {
                         key={food.id}
                         onSelect={() => handleSelect(food)}
                       >
-                        {food.name_en}
+                        {food[name]}
                       </CommandItem>
                     ))
                   )}
@@ -106,6 +130,19 @@ export function FoodDiaryEntry() {
             </PopoverContent>
           </Popover>
         </div>
+        <Select onValueChange={(value) => setFoodType(value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Meal type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="Breakfast">Breakfast</SelectItem>
+              <SelectItem value="Lunch">Lunch</SelectItem>
+              <SelectItem value="Dinner">Dinner</SelectItem>
+              <SelectItem value="Snack">Snack</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
 
         <div className="w-32">
           <Input

@@ -20,11 +20,12 @@ export const getDailyFood = async (
 
   return { food_diary, error };
 };
-export const searchFoods = async (query: string) => {
+export const searchFoods = async (query: string, lang: string) => {
+  const searcOption = lang === "ka" ? "name_ka" : "name_en";
   const { data, error } = await supabase
     .from("foods_database")
     .select("*")
-    .ilike("name", `%${query}%`)
+    .ilike(searcOption, `%${query}%`)
     .limit(10);
 
   if (error) throw error;
