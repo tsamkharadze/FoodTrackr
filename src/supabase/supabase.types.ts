@@ -56,6 +56,42 @@ export type Database = {
           },
         ];
       };
+      foods_database: {
+        Row: {
+          calories_per_100: number | null;
+          carbs_per_100: number | null;
+          created_at: string;
+          created_by: string | null;
+          fats_per_100: number | null;
+          id: number;
+          name_en: string | null;
+          name_ka: string | null;
+          proteins_per_100: number | null;
+        };
+        Insert: {
+          calories_per_100?: number | null;
+          carbs_per_100?: number | null;
+          created_at?: string;
+          created_by?: string | null;
+          fats_per_100?: number | null;
+          id?: number;
+          name_en?: string | null;
+          name_ka?: string | null;
+          proteins_per_100?: number | null;
+        };
+        Update: {
+          calories_per_100?: number | null;
+          carbs_per_100?: number | null;
+          created_at?: string;
+          created_by?: string | null;
+          fats_per_100?: number | null;
+          id?: number;
+          name_en?: string | null;
+          name_ka?: string | null;
+          proteins_per_100?: number | null;
+        };
+        Relationships: [];
+      };
       user_profiles: {
         Row: {
           age: number | null;

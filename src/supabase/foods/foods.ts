@@ -20,3 +20,25 @@ export const getDailyFood = async (
 
   return { food_diary, error };
 };
+export const searchFoods = async (query: string) => {
+  const { data, error } = await supabase
+    .from("foods_database")
+    .select("*")
+    .ilike("name", `%${query}%`)
+    .limit(10);
+
+  if (error) throw error;
+  return data;
+};
+
+export const addFoodToDiary = async (
+  entry: Database["public"]["Tables"]["food_diary"]["Insert"],
+) => {
+  const { data, error } = await supabase
+    .from("food_diary")
+    .insert([entry])
+    .select();
+
+  if (error) throw error;
+  return data;
+};

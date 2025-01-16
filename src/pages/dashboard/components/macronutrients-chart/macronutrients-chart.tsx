@@ -98,9 +98,18 @@ export function MacronutrientsChart() {
           </ChartContainer>
           <CardFooter className="flex-col gap-2 text-sm">
             <div>
-              <p>{`${t("dashboard-translation.charts.protein")}: ${totalProtein}/${profile?.goal_protein}`}</p>
-              <p>{`${t("dashboard-translation.charts.fat")}: ${totalFat}/${profile?.goal_fat}`}</p>
-              <p>{`${t("dashboard-translation.charts.carb")}: ${totalCarb}/${profile?.goal_carbs}`}</p>
+              <p>
+                {`${t("dashboard-translation.charts.protein")}: ${totalProtein}/`}
+                <span className="text-gray-500">{profile?.goal_protein}</span>
+              </p>
+              <p>
+                {`${t("dashboard-translation.charts.fat")}: ${totalFat}/`}
+                <span className="text-gray-500">{profile?.goal_fat}</span>
+              </p>
+              <p>
+                {`${t("dashboard-translation.charts.carb")}: ${totalCarb}/`}
+                <span className="text-gray-500">{profile?.goal_carbs}</span>
+              </p>
             </div>
           </CardFooter>
         </CardContent>
