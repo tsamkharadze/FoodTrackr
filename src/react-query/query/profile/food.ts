@@ -12,7 +12,7 @@ export function useFoodSearch(query: string, searchOption: string) {
   return useQuery({
     queryKey: ["foods", query],
     queryFn: () => searchFoods(query, searchOption),
-    enabled: query.length > 2,
+    // enabled: query.length > 2,
     initialData: [],
   });
 }

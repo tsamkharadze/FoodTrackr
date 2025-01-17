@@ -11,6 +11,7 @@ import { foodDiaryAtom } from "@/store/auth";
 import { Button } from "@/components/ui/button";
 import { useDeleteFoodFromDiary } from "@/react-query/mutation/food/food-mutations";
 import { useQueryClient } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 
 export function RecentMeals() {
   const queryClient = useQueryClient();
@@ -27,7 +28,7 @@ export function RecentMeals() {
   };
 
   return (
-    <div>
+    <div data-theme="calories" className={cn("rounded-lg p-4")}>
       <Table>
         <TableCaption>Menu</TableCaption>
         <TableHeader>
@@ -48,6 +49,7 @@ export function RecentMeals() {
               <TableCell>{meal.calories} kcal</TableCell>
               <TableCell>
                 <Button
+                  variant={"destructive"}
                   disabled={isPending}
                   onClick={() => handleDeleteFoodFromDiary(meal.id)}
                 >

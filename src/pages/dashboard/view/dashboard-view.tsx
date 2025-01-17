@@ -14,8 +14,6 @@ const DashboardView = () => {
       <CaloriesChart />
       <MacronutrientsChart />
       <RecentMeals />
-      {/* <ProfileForm /> */}
-      {/* <FoodList /> */}
     </>
   );
 };

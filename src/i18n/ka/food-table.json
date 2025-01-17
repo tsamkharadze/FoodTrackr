@@ -1,0 +1,12 @@
+{
+  "title": "მოძებნე საკვები",
+  "search-placeholder": "შეიყვანეთ ტექსტი ქართულად",
+  "loading": "პროდუქციის ჩამონათვალი იტვირთება...",
+  "error": "დაფიქსირდა შეცდომა: ",
+  "table-head-name-en": "სახელი",
+  "table-head-name-ka": "სახელი (ქართულად)",
+  "table-head-calories": "კალორია (100გრ-ზე)",
+  "table-head-protein": "ცილა (გრ)",
+  "table-head-carbs": "ნახშირწყლები (გრ)",
+  "table-head-fat": "ცხიმი (გრ)"
+}

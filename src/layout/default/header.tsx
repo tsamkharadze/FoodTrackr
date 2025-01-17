@@ -33,7 +33,7 @@ export const Header = () => {
     { name: t("header-trans.home"), href: `/${lang}/home`, icon: Home },
     {
       name: t("header-trans.food-catalog"),
-      href: `/${lang}/food-diary`,
+      href: `/${lang}/${DASHBOARD_PATHS.FOODS_TABLE}`,
       icon: UtensilsCrossed,
     },
     {
@@ -48,17 +48,22 @@ export const Header = () => {
       href: `/${lang}/${DASHBOARD_PATHS.DASHBOARD}`,
       icon: Home,
     },
+    {
+      name: t("header-trans.food-catalog"),
+      href: `/${lang}/${DASHBOARD_PATHS.FOODS_TABLE}`,
+      icon: UtensilsCrossed,
+    },
 
     {
       name: t("header-trans.bmi-calculator"),
       href: `/${lang}/${DASHBOARD_PATHS.BMI_CALC}`,
       icon: Scale,
     },
-    {
-      name: t("header-trans.profile"),
-      href: `/${lang}/${AUTH_PATHS.USER_PROFILE}`,
-      icon: User,
-    },
+    // {
+    //   name: t("header-trans.profile"),
+    //   href: `/${lang}/${AUTH_PATHS.USER_PROFILE}`,
+    //   icon: User,
+    // },
   ];
 
   const navigation = !user ? unauthorized : authorized;
@@ -130,6 +135,8 @@ export const Header = () => {
                   <DropdownMenuSeparator />
                   <NavLink to={`/${lang}/${AUTH_PATHS.USER_PROFILE}`}>
                     <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" />
+
                       {t("header-trans.profile")}
                     </DropdownMenuItem>
                   </NavLink>

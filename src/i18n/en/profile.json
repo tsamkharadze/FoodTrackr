@@ -4,11 +4,21 @@
     "description": "Please fill all fields",
     "fields": {
       "name": "Name ",
-      "namePlaceholder": "Enter your name "
+      "namePlaceholder": "Enter your name ",
+      "age": "Age",
+      "agePlaceholder": "Enter your age",
+      "height": "Height (cm)",
+      "heightPlaceholder": "Enter your height in cm",
+      "weight": "weight",
+      "weightPlaceholder": "Enter your weight in kg",
+      "sex": "Sex",
+      "sexPlaceholder": "Select your sex",
+      "male": "Male",
+      "female": "Female"
     },
 
     "buttons": {
-      "confirm": "Confirm"
+      "confirm": "Save Changes"
     },
     "loading": "Loading"
   }

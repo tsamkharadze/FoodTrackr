@@ -11,6 +11,7 @@ const BmiCalcView = lazy(() => import("@/pages/bmi-calc/views/bmi-calc-view"));
 const DashboardView = lazy(
   () => import("@/pages/dashboard/view/dashboard-view"),
 );
+const FoodsTable = lazy(() => import("@/pages/foods-table/foods-table"));
 
 export const DASHBOARD_ROUTES = [
   <Route
@@ -42,6 +43,15 @@ export const DASHBOARD_ROUTES = [
           <DashboardView />
         </Suspense>
       </LogoutGuard>
+    }
+  />,
+  <Route
+    key="foods-table"
+    path={DASHBOARD_PATHS.FOODS_TABLE}
+    element={
+      <Suspense>
+        <FoodsTable />
+      </Suspense>
     }
   />,
 ];

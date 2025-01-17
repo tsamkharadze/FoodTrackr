@@ -21,7 +21,7 @@ export const getDailyFood = async (
   return { food_diary, error };
 };
 export const searchFoods = async (query: string, lang: string) => {
-  if (!query || query.length <= 2) {
+  if (!query) {
     return [];
   }
 

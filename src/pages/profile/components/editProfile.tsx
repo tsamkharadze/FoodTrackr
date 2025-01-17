@@ -29,6 +29,8 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileSchema, type ProfileFormData } from "@/lib/validations/profile";
+import { createCustomZodErrorMap } from "@/lib/validations/customErrorMap";
+import { z } from "zod";
 
 const Profile = () => {
   const [avatar_url, setAvatar] = useState("");
@@ -37,6 +39,7 @@ const Profile = () => {
   const { t } = useTranslation();
   const queryclient = useQueryClient();
   const { toast } = useToast();
+  z.setErrorMap(createCustomZodErrorMap(t));
 
   const {
     register,
@@ -45,7 +48,7 @@ const Profile = () => {
     setValue,
     watch,
   } = useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema),
+    resolver: zodResolver(profileSchema(t)),
     defaultValues: {
       sex: "Male",
     },
@@ -86,15 +89,15 @@ const Profile = () => {
         onSuccess: () => {
           queryclient.invalidateQueries({ queryKey: ["profileInfo", userId] });
           toast({
-            title: "Success",
-            description: "Profile updated successfully",
+            title: t("profile-translation.profile.buttons.confirm"),
+            description: t("profile-translation.profile.buttons.confirm"),
           });
         },
         onError: () => {
           toast({
             variant: "destructive",
-            title: "Error",
-            description: "Failed to update profile",
+            title: t("profile-translation.profile.buttons.confirm"),
+            description: t("profile-translation.profile.buttons.confirm"),
           });
         },
       },
@@ -102,7 +105,7 @@ const Profile = () => {
   };
 
   if (isLoading) {
-    return <div>loading</div>;
+    return <div>{t("profile-translation.profile.loading")}</div>;
   }
 
   return (
@@ -137,7 +140,9 @@ const Profile = () => {
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="age">Age</Label>
+              <Label htmlFor="age">
+                {t("profile-translation.profile.fields.age")}
+              </Label>
               {errors.age && (
                 <div className="text-sm font-medium text-destructive">
                   {errors.age.message}
@@ -146,14 +151,18 @@ const Profile = () => {
               <Input
                 id="age"
                 type="number"
-                placeholder="Enter your age"
+                placeholder={t(
+                  "profile-translation.profile.fields.agePlaceholder",
+                )}
                 {...register("age", { valueAsNumber: true })}
                 defaultValue={userProfile?.age || undefined}
               />
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="height">Height (cm)</Label>
+              <Label htmlFor="height">
+                {t("profile-translation.profile.fields.height")}
+              </Label>
               {errors.height && (
                 <div className="text-sm font-medium text-destructive">
                   {errors.height.message}
@@ -162,14 +171,18 @@ const Profile = () => {
               <Input
                 id="height"
                 type="number"
-                placeholder="Enter your height in cm"
+                placeholder={t(
+                  "profile-translation.profile.fields.heightPlaceholder",
+                )}
                 {...register("height", { valueAsNumber: true })}
                 defaultValue={userProfile?.height || undefined}
               />
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="weight">Weight (kg)</Label>
+              <Label htmlFor="weight">
+                {t("profile-translation.profile.fields.weight")}
+              </Label>
               {errors.weight && (
                 <div className="text-sm font-medium text-destructive">
                   {errors.weight.message}
@@ -178,14 +191,18 @@ const Profile = () => {
               <Input
                 id="weight"
                 type="number"
-                placeholder="Enter your weight in kg"
+                placeholder={t(
+                  "profile-translation.profile.fields.weightPlaceholder",
+                )}
                 {...register("weight", { valueAsNumber: true })}
                 defaultValue={userProfile?.weight || undefined}
               />
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="sex">Sex</Label>
+              <Label htmlFor="sex">
+                {t("profile-translation.profile.fields.sex")}
+              </Label>
               {errors.sex && (
                 <div className="text-sm font-medium text-destructive">
                   {errors.sex.message}
@@ -198,11 +215,19 @@ const Profile = () => {
                 defaultValue={userProfile?.sex?.toString() || "Male"}
               >
                 <SelectTrigger id="sex">
-                  <SelectValue placeholder="Select your sex" />
+                  <SelectValue
+                    placeholder={t(
+                      "profile-translation.profile.fields.sexPlaceholder",
+                    )}
+                  />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Male">Male</SelectItem>
-                  <SelectItem value="Female">Female</SelectItem>
+                  <SelectItem value="Male">
+                    {t("profile-translation.profile.fields.male")}
+                  </SelectItem>
+                  <SelectItem value="Female">
+                    {t("profile-translation.profile.fields.female")}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -212,7 +237,9 @@ const Profile = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit">Save Changes</Button>
+            <Button variant={"secondary"} type="submit">
+              {t("profile-translation.profile.buttons.confirm")}
+            </Button>
           </CardFooter>
         </form>
       </Card>

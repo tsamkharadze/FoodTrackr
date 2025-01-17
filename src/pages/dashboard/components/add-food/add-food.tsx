@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useDebounce } from "@uidotdev/usehooks";
+
 import {
   Command,
   CommandEmpty,
@@ -32,6 +34,7 @@ import {
 } from "@/components/ui/select";
 import useToday from "@/hooks/useToday";
 import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 export function FoodDiaryEntry() {
   const { i18n } = useTranslation();
@@ -40,6 +43,7 @@ export function FoodDiaryEntry() {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [quantity, setQuantity] = useState<number>(100);
   const [foodType, setFoodType] = useState("");
@@ -47,7 +51,10 @@ export function FoodDiaryEntry() {
   const user = useAtomValue(userAtom);
   const today = useToday();
 
-  const { data: foods = [], isLoading } = useFoodSearch(search, language);
+  const { data: foods = [], isLoading } = useFoodSearch(
+    debouncedSearch,
+    language,
+  );
   const { mutate: addFoodMutation, status } = useAddFoodToDiary();
   const isAddLoading = status === "pending";
 
@@ -55,13 +62,11 @@ export function FoodDiaryEntry() {
     setSelectedFood(food);
     setOpen(false);
   };
-  console.log(selectedDate);
 
   const { calories, carbs, fat, protein } = useCalculateMealNutrients(
     selectedFood,
     quantity,
   );
-  console.log(calories, carbs, fat, protein);
 
   const handleAddFood = () => {
     if (!selectedFood || !user) return;
@@ -96,81 +101,83 @@ export function FoodDiaryEntry() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-4">
-        <div className="flex-1">
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={open}
-                className="w-full justify-between"
-              >
-                {selectedFood ? selectedFood[name] : "Select food..."}
-                <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0">
-              <Command>
-                <CommandInput
-                  placeholder="Search foods..."
-                  value={search}
-                  onValueChange={setSearch}
-                />
-                <CommandEmpty>No foods found.</CommandEmpty>
-                <CommandGroup>
-                  {isLoading ? (
-                    <CommandItem disabled>Loading...</CommandItem>
-                  ) : (
-                    foods?.map((food) => (
-                      <CommandItem
-                        key={food.id}
-                        onSelect={() => handleSelect(food)}
-                      >
-                        {food[name]}
-                      </CommandItem>
-                    ))
-                  )}
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
-        <Select
-          value={foodType}
-          onValueChange={(value) => setFoodType(value || "")}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Meal type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="Breakfast">Breakfast</SelectItem>
-              <SelectItem value="Lunch">Lunch</SelectItem>
-              <SelectItem value="Dinner">Dinner</SelectItem>
-              <SelectItem value="Snack">Snack</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+    <div data-theme="calories" className={cn("rounded-lg p-4")}>
+      <div className="space-y-4">
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-full justify-between"
+                >
+                  {selectedFood ? selectedFood[name] : "Select food..."}
+                  <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[300px] p-0">
+                <Command>
+                  <CommandInput
+                    placeholder="Search foods..."
+                    value={search}
+                    onValueChange={setSearch}
+                  />
+                  <CommandEmpty>No foods found.</CommandEmpty>
+                  <CommandGroup>
+                    {isLoading ? (
+                      <CommandItem disabled>Loading...</CommandItem>
+                    ) : (
+                      foods?.map((food) => (
+                        <CommandItem
+                          key={food.id}
+                          onSelect={() => handleSelect(food)}
+                        >
+                          {food[name]}
+                        </CommandItem>
+                      ))
+                    )}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <Select
+            value={foodType}
+            onValueChange={(value) => setFoodType(value || "")}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Meal type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="Breakfast">Breakfast</SelectItem>
+                <SelectItem value="Lunch">Lunch</SelectItem>
+                <SelectItem value="Dinner">Dinner</SelectItem>
+                <SelectItem value="Snack">Snack</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
-        <div className="w-32">
-          <Input
-            type="number"
-            value={quantity === 0 ? "" : quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            step={10}
-            min={0}
-            placeholder="Grams"
-          />
-        </div>
+          <div className="w-32">
+            <Input
+              type="number"
+              value={quantity === 0 ? "" : quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              step={10}
+              min={0}
+              placeholder="Grams"
+            />
+          </div>
 
-        <Button
-          onClick={handleAddFood}
-          disabled={!selectedFood || isAddLoading || !foodType}
-        >
-          Add to Diary
-        </Button>
+          <Button
+            onClick={handleAddFood}
+            disabled={!selectedFood || isAddLoading || !foodType}
+          >
+            Add to Diary
+          </Button>
+        </div>
       </div>
     </div>
   );

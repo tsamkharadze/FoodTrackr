@@ -1,0 +1,46 @@
+{
+  "bmi-calc": {
+    "title": "BMI & Macronutrient Calculator",
+    "form": {
+      "sex": {
+        "label": "Sex",
+        "placeholder": "Select your sex",
+        "male": "Male",
+        "female": "Female",
+        "error": "This field is required"
+      },
+      "age": {
+        "label": "Age",
+        "placeholder": "Enter your age",
+        "error": "This field is required"
+      },
+      "height": {
+        "label": "Height (cm)",
+        "placeholder": "Enter your height",
+        "error": "This field is required"
+      },
+      "weight": {
+        "label": "Weight (kg)",
+        "placeholder": "Enter your weight",
+        "error": "This field is required"
+      },
+      "submit": "Calculate BMI & Macros"
+    },
+    "results": {
+      "bmi": {
+        "title": "Your BMI:",
+        "value": "{bmi}"
+      },
+      "daily-intake": {
+        "title": "Recommended Daily Intake (Weight Loss): ",
+        "calories": "kcal"
+      },
+      "macronutrients": {
+        "title": "Your Macronutrients: ",
+        "carbs": "Carbs (gram): ",
+        "protein": "Protein (gram): ",
+        "fats": "Fats (gram): "
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { useWeightUpdate } from "@/react-query/mutation/weight-update/useWeightUpdate";
+import { cn } from "@/lib/utils";
 
 // BMI ranges
 const BMI_RANGES = {
@@ -78,91 +79,95 @@ export function WeightStatusChart() {
   } satisfies ChartConfig;
 
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>{t("dashboard-translation.charts.weight-status")}</CardTitle>
-        <CardDescription>
-          {t("dashboard-translation.charts.bmi-category")} : {category}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-1 items-center pb-0">
-        <Button onClick={() => handleWeightChange(-0.5)} disabled={isLoading}>
-          <Minus />
-        </Button>
+    <div data-theme="calories" className={cn("rounded-lg p-4")}>
+      <Card className="flex flex-col">
+        <CardHeader className="items-center pb-0">
+          <CardTitle>
+            {t("dashboard-translation.charts.weight-status")}
+          </CardTitle>
+          <CardDescription>
+            {t("dashboard-translation.charts.bmi-category")} : {category}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-1 items-center pb-0">
+          <Button onClick={() => handleWeightChange(-0.5)} disabled={isLoading}>
+            <Minus />
+          </Button>
 
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[250px]"
-        >
-          <RadialBarChart
-            data={chartData}
-            startAngle={180}
-            endAngle={0}
-            innerRadius={80}
-            outerRadius={130}
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square w-full max-w-[250px]"
           >
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) - 16}
-                          className="fill-foreground text-2xl font-bold"
-                        >
-                          {weight} kg
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 4}
-                          className="fill-muted-foreground"
-                        >
-                          BMI: {profile?.bmi?.toFixed(1)}
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
+            <RadialBarChart
+              data={chartData}
+              startAngle={180}
+              endAngle={0}
+              innerRadius={80}
+              outerRadius={130}
+            >
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
               />
-            </PolarRadiusAxis>
-            <RadialBar
-              dataKey="overweight"
-              fill={BMI_RANGES.OVERWEIGHT.color}
-              cornerRadius={5}
-              className="stroke-transparent stroke-2"
-            />
-            <RadialBar
-              dataKey={you}
-              fill={BMI_RANGES.NORMAL.color}
-              cornerRadius={5}
-              className="stroke-transparent stroke-2"
-            />
-            <RadialBar
-              dataKey="underweight"
-              fill={BMI_RANGES.UNDERWEIGHT.color}
-              cornerRadius={5}
-              className="stroke-transparent stroke-2"
-            />
-          </RadialBarChart>
-        </ChartContainer>
+              <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) - 16}
+                            className="fill-foreground text-2xl font-bold"
+                          >
+                            {weight} kg
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 4}
+                            className="fill-muted-foreground"
+                          >
+                            BMI: {profile?.bmi?.toFixed(1)}
+                          </tspan>
+                        </text>
+                      );
+                    }
+                  }}
+                />
+              </PolarRadiusAxis>
+              <RadialBar
+                dataKey="overweight"
+                fill={BMI_RANGES.OVERWEIGHT.color}
+                cornerRadius={5}
+                className="stroke-transparent stroke-2"
+              />
+              <RadialBar
+                dataKey={you}
+                fill={BMI_RANGES.NORMAL.color}
+                cornerRadius={5}
+                className="stroke-transparent stroke-2"
+              />
+              <RadialBar
+                dataKey="underweight"
+                fill={BMI_RANGES.UNDERWEIGHT.color}
+                cornerRadius={5}
+                className="stroke-transparent stroke-2"
+              />
+            </RadialBarChart>
+          </ChartContainer>
 
-        <Button onClick={() => handleWeightChange(0.5)} disabled={isLoading}>
-          <Plus />
-        </Button>
-      </CardContent>
+          <Button onClick={() => handleWeightChange(0.5)} disabled={isLoading}>
+            <Plus />
+          </Button>
+        </CardContent>
 
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          {t("dashboard-translation.charts.current-status")} : {category}{" "}
-          <Scale className="h-4 w-4" />
-        </div>
-      </CardFooter>
-    </Card>
+        <CardFooter className="flex-col gap-2 text-sm">
+          <div className="flex items-center gap-2 font-medium leading-none">
+            {t("dashboard-translation.charts.current-status")} : {category}{" "}
+            <Scale className="h-4 w-4" />
+          </div>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }

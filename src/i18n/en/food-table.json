@@ -1,0 +1,12 @@
+{
+  "title": "Search Foods",
+  "search-placeholder": "Type in English",
+  "loading": "Loading popular foods...",
+  "error": "An error occurred: ",
+  "table-head-name-en": "Name",
+  "table-head-name-ka": "Name (ka)",
+  "table-head-calories": "Calories (per 100g)",
+  "table-head-protein": "Protein (g)",
+  "table-head-carbs": "Carbs (g)",
+  "table-head-fat": "Fat (g)"
+}

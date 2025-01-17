@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import useNutritionCalculator from "@/hooks/useNutritionCalculator";
+import { useTranslation } from "react-i18next";
 
 type FormData = {
   sex: string;
@@ -20,6 +21,7 @@ type FormData = {
 };
 
 const BmiCalc: React.FC = () => {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -47,7 +49,7 @@ const BmiCalc: React.FC = () => {
   return (
     <div className="flex flex-col items-center p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-6">
-        BMI & Macronutrient Calculator
+        {t("bmi-calc-translation.bmi-calc.title")}
       </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -56,96 +58,135 @@ const BmiCalc: React.FC = () => {
         {/* Sex */}
         <div>
           <Label htmlFor="sex" className="block mb-1">
-            Sex
+            {t("bmi-calc-translation.bmi-calc.form.sex.label")}
           </Label>
           <Select
             onValueChange={(value) => setValue("sex", value)}
             defaultValue="Male"
           >
             <SelectTrigger id="sex">
-              <SelectValue placeholder="Select your sex" />
+              <SelectValue
+                placeholder={t(
+                  "bmi-calc-translation.bmi-calc.form.sex.placeholder",
+                )}
+              />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Male">Male</SelectItem>
-              <SelectItem value="Female">Female</SelectItem>
+              <SelectItem value="Male">
+                {t("bmi-calc-translation.bmi-calc.form.sex.male")}
+              </SelectItem>
+              <SelectItem value="Female">
+                {t("bmi-calc-translation.bmi-calc.form.sex.female")}
+              </SelectItem>
             </SelectContent>
           </Select>
           {errors.sex && (
-            <p className="text-red-500 text-sm">This field is required</p>
+            <p className="text-red-500 text-sm">
+              {t("bmi-calc-translation.bmi-calc.form.sex.error")}
+            </p>
           )}
         </div>
 
         {/* Age */}
         <div>
-          <Label htmlFor="age">Age</Label>
+          <Label htmlFor="age">
+            {t("bmi-calc-translation.bmi-calc.form.age.label")}
+          </Label>
           <Input
             type="number"
             id="age"
-            placeholder="Enter your age"
+            placeholder={t(
+              "bmi-calc-translation.bmi-calc.form.age.placeholder",
+            )}
             {...register("age", { required: true, valueAsNumber: true })}
           />
           {errors.age && (
-            <p className="text-red-500 text-sm">This field is required</p>
+            <p className="text-red-500 text-sm">
+              {t("bmi-calc-translation.bmi-calc.form.age.error")}
+            </p>
           )}
         </div>
 
         {/* Height */}
         <div>
-          <Label htmlFor="height">Height (cm)</Label>
+          <Label htmlFor="height">
+            {t("bmi-calc-translation.bmi-calc.form.height.label")}
+          </Label>
           <Input
             type="number"
             id="height"
-            placeholder="Enter your height"
+            placeholder={t(
+              "bmi-calc-translation.bmi-calc.form.height.placeholder",
+            )}
             {...register("height", { required: true, valueAsNumber: true })}
           />
           {errors.height && (
-            <p className="text-red-500 text-sm">This field is required</p>
+            <p className="text-red-500 text-sm">
+              {t("bmi-calc-translation.bmi-calc.form.height.error")}
+            </p>
           )}
         </div>
 
         {/* Weight */}
         <div>
-          <Label htmlFor="weight">Weight (kg)</Label>
+          <Label htmlFor="weight">
+            {t("bmi-calc-translation.bmi-calc.form.weight.label")}
+          </Label>
           <Input
             type="number"
             id="weight"
-            placeholder="Enter your weight"
+            placeholder={t(
+              "bmi-calc-translation.bmi-calc.form.weight.placeholder",
+            )}
             {...register("weight", { required: true, valueAsNumber: true })}
           />
           {errors.weight && (
-            <p className="text-red-500 text-sm">This field is required</p>
+            <p className="text-red-500 text-sm">
+              {t("bmi-calc-translation.bmi-calc.form.weight.error")}
+            </p>
           )}
         </div>
 
         {/* Submit Button */}
-        <Button
-          type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-        >
-          Calculate BMI & Macros
+        <Button variant={"secondary"} type="submit" className="w-full">
+          {t("bmi-calc-translation.bmi-calc.form.submit")}
         </Button>
       </form>
 
       {/* BMI Result */}
       <div className="mt-6">
-        <h2 className="text-xl font-semibold">Your BMI:</h2>
+        <h2 className="text-xl font-semibold">
+          {t("bmi-calc-translation.bmi-calc.results.bmi.title")}
+        </h2>
         <p className="text-lg">{bmi}</p>
       </div>
 
       {/* Daily Caloric Intake */}
       <div className="mt-6">
         <h2 className="text-xl font-semibold">
-          Recommended Daily Intake (Weight Loss):
+          {t("bmi-calc-translation.bmi-calc.results.daily-intake.title")}{" "}
+          {dailyCalories}
+          {t("bmi-calc-translation.bmi-calc.results.daily-intake.calories")}
         </h2>
-        <p className="text-lg">Calories: {dailyCalories} kcal</p>
       </div>
 
       {/* Macronutrient Result */}
       <div className="mt-6">
-        <h2 className="text-xl font-semibold">Your Macronutrients:</h2>
-        <p className="text-lg">Carbs: {carbs} grams</p>
-        <p className="text-lg">Protein: {protein} grams</p>
-        <p className="text-lg">Fats: {fats} grams</p>
+        <h2 className="text-xl font-semibold">
+          {t("bmi-calc-translation.bmi-calc.results.macronutrients.title")}
+        </h2>
+        <p className="text-lg">
+          {t("bmi-calc-translation.bmi-calc.results.macronutrients.carbs")}
+          {carbs}
+        </p>
+        <p className="text-lg">
+          {t("bmi-calc-translation.bmi-calc.results.macronutrients.protein")}{" "}
+          {protein}
+        </p>
+        <p className="text-lg">
+          {t("bmi-calc-translation.bmi-calc.results.macronutrients.fats")}{" "}
+          {fats}
+        </p>
       </div>
     </div>
   );

@@ -14,6 +14,12 @@ import ErrorEn from "./en/errors.json";
 import ErrorKa from "./ka/errors.json";
 import dashboardEn from "./en/dashboard.json";
 import dashboardKa from "./ka/dashboard.json";
+import FoodstableKa from "./ka/food-table.json";
+import FoodstableEn from "./en/food-table.json";
+import bmiCalcKa from "./ka/bmi-calc.json";
+import bmiCalcEn from "./en/bmi-calc.json";
+import validationsKa from "./ka/validations.json";
+import validationsEn from "./en/validations.json";
 
 // Initialize language detector before i18next
 const languageDetector = new LngDetector();
@@ -37,6 +43,9 @@ i18n
           "profile-translation": profileKa,
           "error-translation": ErrorKa,
           "dashboard-translation": dashboardKa,
+          "foods-table-translation": FoodstableKa,
+          "bmi-calc-translation": bmiCalcKa,
+          "validations-translation": validationsKa,
         },
       },
       en: {
@@ -47,6 +56,9 @@ i18n
           "profile-translation": profileEn,
           "error-translation": ErrorEn,
           "dashboard-translation": dashboardEn,
+          "foods-table-translation": FoodstableEn,
+          "bmi-calc-translation": bmiCalcEn,
+          "validations-translation": validationsEn,
         },
       },
     },

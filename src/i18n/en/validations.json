@@ -1,0 +1,24 @@
+{
+  "profile": {
+    "name": {
+      "min": "Name must be at least 2 characters",
+      "max": "Name must be less than 50 characters"
+    },
+    "age": {
+      "min": "You must be at least 13 years old",
+      "max": "Please enter a valid age"
+    },
+    "height": {
+      "min": "Height must be at least 50cm",
+      "max": "Please enter a valid height"
+    },
+    "weight": {
+      "min": "Weight must be at least 20kg",
+      "max": "Please enter a valid weight"
+    },
+    "errors": {
+      "invalid_number": "Invalid number, please enter a valid one",
+      "invalid_type": "Expected {{expected}}, but received {{received}}"
+    }
+  }
+}
