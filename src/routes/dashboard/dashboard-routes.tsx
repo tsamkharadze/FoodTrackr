@@ -5,6 +5,7 @@ import { DASHBOARD_PATHS } from "./dashboard.enum";
 import { lazy, Suspense } from "react";
 import { AuthGuard } from "@/guards/route-guards/auth";
 import { LogoutGuard } from "@/guards/route-guards/logout";
+import { Spinner } from "@/components/ui/spinner";
 
 const HomeView = lazy(() => import("@/pages/home/view/home-view"));
 const BmiCalcView = lazy(() => import("@/pages/bmi-calc/views/bmi-calc-view"));
@@ -19,7 +20,7 @@ export const DASHBOARD_ROUTES = [
     path={DASHBOARD_PATHS.HOME}
     element={
       <AuthGuard>
-        <Suspense>
+        <Suspense fallback={<Spinner size={"large"} />}>
           <HomeView />
         </Suspense>
       </AuthGuard>
@@ -29,7 +30,7 @@ export const DASHBOARD_ROUTES = [
     key="BMI-CALC"
     path={DASHBOARD_PATHS.BMI_CALC}
     element={
-      <Suspense>
+      <Suspense fallback={<Spinner size={"large"} />}>
         <BmiCalcView />
       </Suspense>
     }
@@ -39,7 +40,7 @@ export const DASHBOARD_ROUTES = [
     path={DASHBOARD_PATHS.DASHBOARD}
     element={
       <LogoutGuard>
-        <Suspense>
+        <Suspense fallback={<Spinner size={"large"} />}>
           <DashboardView />
         </Suspense>
       </LogoutGuard>
@@ -49,7 +50,7 @@ export const DASHBOARD_ROUTES = [
     key="foods-table"
     path={DASHBOARD_PATHS.FOODS_TABLE}
     element={
-      <Suspense>
+      <Suspense fallback={<Spinner size={"large"} />}>
         <FoodsTable />
       </Suspense>
     }

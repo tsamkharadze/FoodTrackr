@@ -5,6 +5,7 @@ import { Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { LogoutGuard } from "@/guards/route-guards/logout";
 import { AuthGuard } from "@/guards/route-guards/auth";
+import { Spinner } from "@/components/ui/spinner";
 
 const LoginView = lazy(() => import("@/pages/login/view/login-view"));
 const RegistrationView = lazy(
@@ -18,7 +19,7 @@ export const AUTH_ROUTES = [
     path={AUTH_PATHS.LOGIN_PAGE}
     element={
       <AuthGuard>
-        <Suspense>
+        <Suspense fallback={<Spinner size={"large"} />}>
           <LoginView />
         </Suspense>
       </AuthGuard>
@@ -29,7 +30,7 @@ export const AUTH_ROUTES = [
     path={AUTH_PATHS.REGISTER_PAGE}
     element={
       <AuthGuard>
-        <Suspense>
+        <Suspense fallback={<Spinner size={"large"} />}>
           <RegistrationView />
         </Suspense>
       </AuthGuard>
@@ -40,7 +41,7 @@ export const AUTH_ROUTES = [
     path={AUTH_PATHS.USER_PROFILE}
     element={
       <LogoutGuard>
-        <Suspense>
+        <Suspense fallback={<Spinner size={"large"} />}>
           <ProfileView />
         </Suspense>
       </LogoutGuard>

@@ -121,15 +121,6 @@ export function CaloriesChart() {
             </RadialBarChart>
           </ChartContainer>
         </CardContent>
-
-        <div className="mt-4 flex justify-center pb-4">
-          <button
-            // onClick={() => addCalories(100)}
-            className="rounded-md bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
-          >
-            Add 100 Calories
-          </button>
-        </div>
       </Card>
     </div>
   );

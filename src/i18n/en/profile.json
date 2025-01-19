@@ -20,6 +20,9 @@
     "buttons": {
       "confirm": "Save Changes"
     },
+    "toast-title": "Success",
+    "toast-message": "Changes saved succesfully",
+
     "loading": "Loading"
   }
 }

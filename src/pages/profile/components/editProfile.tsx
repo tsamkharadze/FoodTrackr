@@ -89,8 +89,8 @@ const Profile = () => {
         onSuccess: () => {
           queryclient.invalidateQueries({ queryKey: ["profileInfo", userId] });
           toast({
-            title: t("profile-translation.profile.buttons.confirm"),
-            description: t("profile-translation.profile.buttons.confirm"),
+            title: t("profile-translation.profile.toast-title"),
+            description: t("profile-translation.profile.toast-message"),
           });
         },
         onError: () => {
