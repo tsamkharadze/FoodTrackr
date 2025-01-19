@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Home, UtensilsCrossed, Scale, User, LogIn } from "lucide-react";
+import { Home, UtensilsCrossed, Scale, User, LogIn, Menu } from "lucide-react";
 import { useAtomValue } from "jotai";
 import { profileAtom, userAtom } from "@/store/auth";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DASHBOARD_PATHS } from "@/routes/dashboard/dashboard.enum";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
@@ -53,17 +54,11 @@ export const Header = () => {
       href: `/${lang}/${DASHBOARD_PATHS.FOODS_TABLE}`,
       icon: UtensilsCrossed,
     },
-
     {
       name: t("header-trans.bmi-calculator"),
       href: `/${lang}/${DASHBOARD_PATHS.BMI_CALC}`,
       icon: Scale,
     },
-    // {
-    //   name: t("header-trans.profile"),
-    //   href: `/${lang}/${AUTH_PATHS.USER_PROFILE}`,
-    //   icon: User,
-    // },
   ];
 
   const navigation = !user ? unauthorized : authorized;
@@ -77,11 +72,11 @@ export const Header = () => {
             to={`/${lang}/home`}
             className="text-2xl font-bold text-indigo-600"
           >
-            Fitness Tracker
+            FoodTrackr{" "}
           </NavLink>
 
-          {/* Navigation Links */}
-          <nav className="flex space-x-4">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden sm:flex space-x-4">
             {navigation.map((item) => {
               const Icon = item.icon;
               return (
@@ -136,7 +131,6 @@ export const Header = () => {
                   <NavLink to={`/${lang}/${AUTH_PATHS.USER_PROFILE}`}>
                     <DropdownMenuItem>
                       <User className="mr-2 h-4 w-4" />
-
                       {t("header-trans.profile")}
                     </DropdownMenuItem>
                   </NavLink>
@@ -148,6 +142,38 @@ export const Header = () => {
               </DropdownMenu>
             )}
           </div>
+
+          {/* Hamburger Menu */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="ghost" className="sm:hidden">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:hidden">
+              <div className="flex flex-col space-y-4">
+                {navigation.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.name}
+                      to={item.href}
+                      className={({ isActive }) =>
+                        `inline-flex items-center text-sm font-medium ${
+                          isActive
+                            ? "text-indigo-500"
+                            : "text-gray-500 hover:text-gray-700"
+                        }`
+                      }
+                    >
+                      <Icon className="mr-2 h-4 w-4" />
+                      {item.name}
+                    </NavLink>
+                  );
+                })}
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </header>
