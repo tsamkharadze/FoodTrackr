@@ -10,7 +10,7 @@ import { Spinner } from "@/components/ui/spinner";
 const LandingView = lazy(() => import("@/pages/landing/landing-page"));
 const BmiCalcView = lazy(() => import("@/pages/bmi-calc/views/bmi-calc-view"));
 const DashboardView = lazy(
-  () => import("@/pages/dashboard/view/dashboard-view")
+  () => import("@/pages/dashboard/view/dashboard-view"),
 );
 const FoodsTable = lazy(() => import("@/pages/foods-table/foods-table"));
 
