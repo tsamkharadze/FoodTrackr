@@ -8,10 +8,17 @@ import { WeightStatusChart } from "../components/weight/weight-control";
 const DashboardView = () => {
   return (
     <>
-      <WeightStatusChart />
       <DashboardCalendar />
-      <CaloriesChart />
-      <MacronutrientsChart />
+      <div className="text-center flex flex-col md:flex-row md:justify-center md:items-center gap-4 h-full">
+        <div className="flex-grow">
+          <CaloriesChart />
+        </div>
+        <div className="flex-grow">
+          <MacronutrientsChart />
+        </div>
+      </div>
+
+      <WeightStatusChart />
       <FoodDiaryEntry />
       <RecentMeals />
     </>

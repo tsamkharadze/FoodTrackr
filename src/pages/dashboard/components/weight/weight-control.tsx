@@ -36,7 +36,7 @@ export function WeightStatusChart() {
   const you = i18n.language === "ka" ? "შენ" : "you";
 
   const { weight, handleWeightChange, isLoading } = useWeightUpdate(
-    profile?.weight ?? 0,
+    profile?.weight ?? 0
   );
 
   // Calculate which category the current BMI falls into
@@ -80,7 +80,7 @@ export function WeightStatusChart() {
 
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
-      <Card className=" max-w-96 flex flex-col">
+      <Card className="  flex flex-col">
         <CardHeader className="items-center pb-0">
           <CardTitle>
             {t("dashboard-translation.charts.weight-status")}

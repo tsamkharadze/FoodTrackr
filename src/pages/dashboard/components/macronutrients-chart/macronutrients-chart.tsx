@@ -68,10 +68,9 @@ export function MacronutrientsChart() {
   ];
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
-      <Card className="flex flex-col">
+      <Card className="items-center h-[434px]  flex flex-col">
         <CardHeader className="items-center pb-0">
           <CardTitle>
-            {" "}
             {t("dashboard-translation.charts.macronutrients-title")}:
           </CardTitle>
           <CardDescription>

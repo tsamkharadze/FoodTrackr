@@ -55,7 +55,7 @@ export function FoodDiaryEntry() {
 
   const { data: foods = [], isLoading } = useFoodSearch(
     debouncedSearch,
-    language,
+    language
   );
   const { mutate: addFoodMutation, status } = useAddFoodToDiary();
   const isAddLoading = status === "pending";
@@ -67,7 +67,7 @@ export function FoodDiaryEntry() {
 
   const { calories, carbs, fat, protein } = useCalculateMealNutrients(
     selectedFood,
-    quantity,
+    quantity
   );
 
   const handleAddFood = () => {
@@ -99,7 +99,7 @@ export function FoodDiaryEntry() {
             description: t("add-food-translation.food_diary.toast.description"),
           });
         },
-      },
+      }
     );
 
     // Reset form
@@ -132,7 +132,7 @@ export function FoodDiaryEntry() {
                 <Command>
                   <CommandInput
                     placeholder={t(
-                      "add-food-translation.food_diary.search_foods_placeholder",
+                      "add-food-translation.food_diary.search_foods_placeholder"
                     )}
                     value={search}
                     onValueChange={setSearch}
@@ -174,7 +174,12 @@ export function FoodDiaryEntry() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="Breakfast">
+                <SelectItem
+                  value={JSON.stringify({
+                    value_en: "Breakfast",
+                    value_ka: "საუზმე",
+                  })}
+                >
                   {t("add-food-translation.food_diary.meal_types.breakfast")}
                 </SelectItem>
                 <SelectItem
@@ -185,10 +190,20 @@ export function FoodDiaryEntry() {
                 >
                   {t("add-food-translation.food_diary.meal_types.lunch")}
                 </SelectItem>
-                <SelectItem value="Dinner">
+                <SelectItem
+                  value={JSON.stringify({
+                    value_en: "Dinner",
+                    value_ka: "ვახშამი",
+                  })}
+                >
                   {t("add-food-translation.food_diary.meal_types.dinner")}
                 </SelectItem>
-                <SelectItem value="Snack">
+                <SelectItem
+                  value={JSON.stringify({
+                    value_en: "Snack",
+                    value_ka: "სნექი",
+                  })}
+                >
                   {t("add-food-translation.food_diary.meal_types.snack")}
                 </SelectItem>
               </SelectGroup>
@@ -203,7 +218,7 @@ export function FoodDiaryEntry() {
               step={10}
               min={0}
               placeholder={t(
-                "add-food-translation.food_diary.grams_placeholder",
+                "add-food-translation.food_diary.grams_placeholder"
               )}
             />
           </div>

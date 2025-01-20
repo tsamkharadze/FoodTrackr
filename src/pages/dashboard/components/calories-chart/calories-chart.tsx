@@ -57,7 +57,7 @@ export function CaloriesChart() {
   console.log(foodDiary);
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
-      <Card className="flex flex-col">
+      <Card className="h-[434px] flex flex-col ">
         <CardHeader className="items-center pb-0">
           <CardTitle>
             {t("dashboard-translation.charts.calories-title")}
