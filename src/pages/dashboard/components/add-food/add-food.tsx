@@ -55,7 +55,7 @@ export function FoodDiaryEntry() {
 
   const { data: foods = [], isLoading } = useFoodSearch(
     debouncedSearch,
-    language
+    language,
   );
   const { mutate: addFoodMutation, status } = useAddFoodToDiary();
   const isAddLoading = status === "pending";
@@ -67,7 +67,7 @@ export function FoodDiaryEntry() {
 
   const { calories, carbs, fat, protein } = useCalculateMealNutrients(
     selectedFood,
-    quantity
+    quantity,
   );
 
   const handleAddFood = () => {
@@ -99,7 +99,7 @@ export function FoodDiaryEntry() {
             description: t("add-food-translation.food_diary.toast.description"),
           });
         },
-      }
+      },
     );
 
     // Reset form
@@ -132,7 +132,7 @@ export function FoodDiaryEntry() {
                 <Command>
                   <CommandInput
                     placeholder={t(
-                      "add-food-translation.food_diary.search_foods_placeholder"
+                      "add-food-translation.food_diary.search_foods_placeholder",
                     )}
                     value={search}
                     onValueChange={setSearch}
@@ -218,7 +218,7 @@ export function FoodDiaryEntry() {
               step={10}
               min={0}
               placeholder={t(
-                "add-food-translation.food_diary.grams_placeholder"
+                "add-food-translation.food_diary.grams_placeholder",
               )}
             />
           </div>

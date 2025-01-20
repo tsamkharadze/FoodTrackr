@@ -36,7 +36,7 @@ export function WeightStatusChart() {
   const you = i18n.language === "ka" ? "შენ" : "you";
 
   const { weight, handleWeightChange, isLoading } = useWeightUpdate(
-    profile?.weight ?? 0
+    profile?.weight ?? 0,
   );
 
   // Calculate which category the current BMI falls into
