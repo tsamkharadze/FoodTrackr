@@ -112,7 +112,7 @@ export function FoodDiaryEntry() {
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
       <div className="space-y-4">
-        <div className="flex gap-4">
+        <div className="flex md:flex-row flex-col gap-4">
           <div className="flex-1">
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -160,67 +160,70 @@ export function FoodDiaryEntry() {
               </PopoverContent>
             </Popover>
           </div>
-          <Select
-            value={JSON.stringify(foodType) || ""}
-            onValueChange={(value) => {
-              const parsedValue: FoodType = JSON.parse(value);
-              setFoodType(parsedValue);
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue
-                placeholder={t("add-food-translation.food_diary.meal_type")}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem
-                  value={JSON.stringify({
-                    value_en: "Breakfast",
-                    value_ka: "საუზმე",
-                  })}
-                >
-                  {t("add-food-translation.food_diary.meal_types.breakfast")}
-                </SelectItem>
-                <SelectItem
-                  value={JSON.stringify({
-                    value_en: "Lunch",
-                    value_ka: "სადილი",
-                  })}
-                >
-                  {t("add-food-translation.food_diary.meal_types.lunch")}
-                </SelectItem>
-                <SelectItem
-                  value={JSON.stringify({
-                    value_en: "Dinner",
-                    value_ka: "ვახშამი",
-                  })}
-                >
-                  {t("add-food-translation.food_diary.meal_types.dinner")}
-                </SelectItem>
-                <SelectItem
-                  value={JSON.stringify({
-                    value_en: "Snack",
-                    value_ka: "სნექი",
-                  })}
-                >
-                  {t("add-food-translation.food_diary.meal_types.snack")}
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
 
-          <div className="w-32">
-            <Input
-              type="number"
-              value={quantity === 0 ? "" : quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              step={10}
-              min={0}
-              placeholder={t(
-                "add-food-translation.food_diary.grams_placeholder",
-              )}
-            />
+          <div className=" flex gap-4 ">
+            <Select
+              value={JSON.stringify(foodType) || ""}
+              onValueChange={(value) => {
+                const parsedValue: FoodType = JSON.parse(value);
+                setFoodType(parsedValue);
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue
+                  placeholder={t("add-food-translation.food_diary.meal_type")}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem
+                    value={JSON.stringify({
+                      value_en: "Breakfast",
+                      value_ka: "საუზმე",
+                    })}
+                  >
+                    {t("add-food-translation.food_diary.meal_types.breakfast")}
+                  </SelectItem>
+                  <SelectItem
+                    value={JSON.stringify({
+                      value_en: "Lunch",
+                      value_ka: "სადილი",
+                    })}
+                  >
+                    {t("add-food-translation.food_diary.meal_types.lunch")}
+                  </SelectItem>
+                  <SelectItem
+                    value={JSON.stringify({
+                      value_en: "Dinner",
+                      value_ka: "ვახშამი",
+                    })}
+                  >
+                    {t("add-food-translation.food_diary.meal_types.dinner")}
+                  </SelectItem>
+                  <SelectItem
+                    value={JSON.stringify({
+                      value_en: "Snack",
+                      value_ka: "სნექი",
+                    })}
+                  >
+                    {t("add-food-translation.food_diary.meal_types.snack")}
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            <div className=" w-32">
+              <Input
+                type="number"
+                value={quantity === 0 ? "" : quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+                step={10}
+                min={0}
+                placeholder={t(
+                  "add-food-translation.food_diary.grams_placeholder",
+                )}
+              />
+            </div>
           </div>
 
           <Button

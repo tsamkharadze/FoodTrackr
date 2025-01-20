@@ -23,20 +23,20 @@ import { foodDiaryAtom, profileAtom } from "@/store/auth";
 import { useTranslation } from "react-i18next";
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  macronutrients: {
+    label: "Macros",
   },
-  chrome: {
-    label: "Chrome",
+  carb: {
+    label: "carb",
     color: "hsl(var(--chart-1))",
   },
 
-  edge: {
-    label: "Edge",
+  fat: {
+    label: "fat",
     color: "hsl(var(--chart-4))",
   },
-  other: {
-    label: "Other",
+  protein: {
+    label: "protein",
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
@@ -51,19 +51,19 @@ export function MacronutrientsChart() {
 
   const chartData = [
     {
-      browser: t("dashboard-translation.charts.carb"),
-      visitors: totalCarb,
-      fill: "var(--color-chrome)",
+      nutrient: t("dashboard-translation.charts.carb"),
+      score: totalCarb,
+      fill: "var(--color-carb)",
     },
     {
-      browser: t("dashboard-translation.charts.fat"),
-      visitors: totalFat,
-      fill: "var(--color-edge)",
+      nutrient: t("dashboard-translation.charts.fat"),
+      score: totalFat,
+      fill: "var(--color-fat)",
     },
     {
-      browser: t("dashboard-translation.charts.protein"),
-      visitors: totalProtein,
-      fill: "var(--color-other)",
+      nutrient: t("dashboard-translation.charts.protein"),
+      score: totalProtein,
+      fill: "var(--color-protein)",
     },
   ];
   return (
@@ -89,8 +89,8 @@ export function MacronutrientsChart() {
               />
               <Pie
                 data={chartData}
-                dataKey="visitors"
-                nameKey="browser"
+                dataKey="score"
+                nameKey="nutrient"
                 innerRadius={60}
               />
             </PieChart>
