@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useDebounce } from "@uidotdev/usehooks";
-
 import {
   Command,
   CommandEmpty,
@@ -35,9 +34,12 @@ import {
 import useToday from "@/hooks/useToday";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-
+interface FoodType {
+  value_en: string;
+  value_ka: string;
+}
 export function FoodDiaryEntry() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation(); // i18next hook
   const language = i18n.language === "ka" ? "ka" : "en";
   const name = language === "ka" ? "name_ka" : "name_en";
   const queryClient = useQueryClient();
@@ -46,14 +48,14 @@ export function FoodDiaryEntry() {
   const debouncedSearch = useDebounce(search, 500);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [quantity, setQuantity] = useState<number>(100);
-  const [foodType, setFoodType] = useState("");
+  const [foodType, setFoodType] = useState<FoodType | null>(null);
   const selectedDate = useAtomValue(selectedDateAtom);
   const user = useAtomValue(userAtom);
   const today = useToday();
 
   const { data: foods = [], isLoading } = useFoodSearch(
     debouncedSearch,
-    language,
+    language
   );
   const { mutate: addFoodMutation, status } = useAddFoodToDiary();
   const isAddLoading = status === "pending";
@@ -65,7 +67,7 @@ export function FoodDiaryEntry() {
 
   const { calories, carbs, fat, protein } = useCalculateMealNutrients(
     selectedFood,
-    quantity,
+    quantity
   );
 
   const handleAddFood = () => {
@@ -73,31 +75,38 @@ export function FoodDiaryEntry() {
     addFoodMutation(
       {
         user_id: user.user.id,
-        food_name: selectedFood.name_en || "Unknown Food",
+        food_name_en:
+          selectedFood.name_en ||
+          t("add-food-translation.food_diary.select_food"),
+        food_name_ka:
+          selectedFood.name_ka ||
+          t("add-food-translation.food_diary.select_food"),
+
         date: selectedDate ? selectedDate : today,
         calories,
         protein,
         fat,
         carbs,
-        meal_type: foodType,
+        meal_type_en: foodType?.value_en || "",
+        meal_type_ka: foodType?.value_ka || "",
       },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
           queryClient.invalidateQueries({ queryKey: ["daily-food"] });
           toast({
-            title: "Done",
-            description: "Meal added successfully",
+            title: t("add-food-translation.food_diary.toast.title"),
+            description: t("add-food-translation.food_diary.toast.description"),
           });
         },
-      },
+      }
     );
 
     // Reset form
     setSelectedFood(null);
     setQuantity(100);
     setSearch("");
-    setFoodType("");
+    setFoodType(null);
   };
 
   return (
@@ -113,21 +122,29 @@ export function FoodDiaryEntry() {
                   aria-expanded={open}
                   className="w-full justify-between"
                 >
-                  {selectedFood ? selectedFood[name] : "Select food..."}
+                  {selectedFood
+                    ? selectedFood[name]
+                    : t("add-food-translation.food_diary.select_food")}
                   <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[300px] p-0">
                 <Command>
                   <CommandInput
-                    placeholder="Search foods..."
+                    placeholder={t(
+                      "add-food-translation.food_diary.search_foods_placeholder"
+                    )}
                     value={search}
                     onValueChange={setSearch}
                   />
-                  <CommandEmpty>No foods found.</CommandEmpty>
+                  <CommandEmpty>
+                    {t("add-food-translation.food_diary.no_foods_found")}
+                  </CommandEmpty>
                   <CommandGroup>
                     {isLoading ? (
-                      <CommandItem disabled>Loading...</CommandItem>
+                      <CommandItem disabled>
+                        {t("food_diary.loading")}
+                      </CommandItem>
                     ) : (
                       foods?.map((food) => (
                         <CommandItem
@@ -144,18 +161,36 @@ export function FoodDiaryEntry() {
             </Popover>
           </div>
           <Select
-            value={foodType}
-            onValueChange={(value) => setFoodType(value || "")}
+            value={JSON.stringify(foodType) || ""}
+            onValueChange={(value) => {
+              const parsedValue: FoodType = JSON.parse(value);
+              setFoodType(parsedValue);
+            }}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Meal type" />
+              <SelectValue
+                placeholder={t("add-food-translation.food_diary.meal_type")}
+              />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="Breakfast">Breakfast</SelectItem>
-                <SelectItem value="Lunch">Lunch</SelectItem>
-                <SelectItem value="Dinner">Dinner</SelectItem>
-                <SelectItem value="Snack">Snack</SelectItem>
+                <SelectItem value="Breakfast">
+                  {t("add-food-translation.food_diary.meal_types.breakfast")}
+                </SelectItem>
+                <SelectItem
+                  value={JSON.stringify({
+                    value_en: "Lunch",
+                    value_ka: "სადილი",
+                  })}
+                >
+                  {t("add-food-translation.food_diary.meal_types.lunch")}
+                </SelectItem>
+                <SelectItem value="Dinner">
+                  {t("add-food-translation.food_diary.meal_types.dinner")}
+                </SelectItem>
+                <SelectItem value="Snack">
+                  {t("add-food-translation.food_diary.meal_types.snack")}
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -167,7 +202,9 @@ export function FoodDiaryEntry() {
               onChange={(e) => setQuantity(Number(e.target.value))}
               step={10}
               min={0}
-              placeholder="Grams"
+              placeholder={t(
+                "add-food-translation.food_diary.grams_placeholder"
+              )}
             />
           </div>
 
@@ -175,7 +212,7 @@ export function FoodDiaryEntry() {
             onClick={handleAddFood}
             disabled={!selectedFood || isAddLoading || !foodType}
           >
-            Add to Diary
+            {t("add-food-translation.food_diary.add_to_diary")}
           </Button>
         </div>
       </div>

@@ -6,5 +6,7 @@
   "password-label": "Password",
   "login-button": "Login",
   "signup-prompt": "Already have an account?",
-  "signup-link": "Sign in"
+  "signup-link": "Sign in",
+  "toast-title": "Success",
+  "toast-message": "Account created succesfully"
 }

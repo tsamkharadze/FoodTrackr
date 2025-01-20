@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { AUTH_PATHS } from "@/routes/auth/auth.enum";
 import { LoginFormInputs, loginSchema } from "@/lib/validations/login.schema";
+import { AuthError } from "@supabase/supabase-js";
 
 export function LoginForm({
   className,
@@ -31,6 +33,8 @@ export function LoginForm({
   const toNavigate =
     location?.state?.from.pathname + location?.state?.from.search || "/";
 
+  const [serverError, setServerError] = useState<string | null>(null);
+
   const { mutate: handleLogin } = useSignIn();
 
   const {
@@ -42,10 +46,22 @@ export function LoginForm({
   });
 
   const onSubmit = (data: LoginFormInputs) => {
+    setServerError(null); // Reset server error before making the request
     handleLogin(data, {
       onSuccess: () => {
         navigate(toNavigate);
         queryClient.invalidateQueries();
+      },
+      onError: (error: Error) => {
+        if (error instanceof AuthError) {
+          const errorMessage =
+            error.message === "Invalid login credentials"
+              ? t("login-trans.default-error")
+              : error.message;
+          setServerError(errorMessage);
+        } else {
+          setServerError(t("login-trans.default-error"));
+        }
       },
     });
   };
@@ -60,6 +76,9 @@ export function LoginForm({
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
+              {serverError && (
+                <div className="text-sm text-red-500">{serverError}</div>
+              )}
               <div className="grid gap-2">
                 <Label htmlFor="email">{t("login-trans.email-label")}</Label>
                 <Input

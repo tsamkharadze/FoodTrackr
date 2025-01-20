@@ -2,6 +2,7 @@
   "charts": {
     "calories-title": "Calories",
     "calories-description": "Recomended Calories",
+    "calories": "calories",
     "macronutrients-title": "Macronutrients",
     "macronutrients-description": "Today",
     "carb": "Carb",

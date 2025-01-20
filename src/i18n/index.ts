@@ -20,6 +20,10 @@ import bmiCalcKa from "./ka/bmi-calc.json";
 import bmiCalcEn from "./en/bmi-calc.json";
 import validationsKa from "./ka/validations.json";
 import validationsEn from "./en/validations.json";
+import recentMealsKa from "./ka/recent-meals.json";
+import recentMealsEn from "./en/recent-meals.json";
+import addFoofKa from "./ka/add-food.json";
+import addFoofEn from "./en/add-food.json";
 
 // Initialize language detector before i18next
 const languageDetector = new LngDetector();
@@ -46,6 +50,8 @@ i18n
           "foods-table-translation": FoodstableKa,
           "bmi-calc-translation": bmiCalcKa,
           "validations-translation": validationsKa,
+          "recent-meals-translation": recentMealsKa,
+          "add-food-translation": addFoofKa,
         },
       },
       en: {
@@ -59,6 +65,8 @@ i18n
           "foods-table-translation": FoodstableEn,
           "bmi-calc-translation": bmiCalcEn,
           "validations-translation": validationsEn,
+          "recent-meals-translation": recentMealsEn,
+          "add-food-translation": addFoofEn,
         },
       },
     },

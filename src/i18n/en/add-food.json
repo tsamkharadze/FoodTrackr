@@ -1,0 +1,21 @@
+{
+  "food_diary": {
+    "select_food": "Select food...",
+    "search_foods_placeholder": "Search foods...",
+    "no_foods_found": "No foods found.",
+    "meal_type": "Meal type",
+    "grams_placeholder": "Grams",
+    "add_to_diary": "Add to Diary",
+    "loading": "Loading...",
+    "meal_types": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "snack": "Snack"
+    },
+    "toast": {
+      "title": "Done",
+      "description": "Meal added successfully"
+    }
+  }
+}

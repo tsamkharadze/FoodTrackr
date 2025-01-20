@@ -6,5 +6,7 @@
   "password-label": "პაროლი",
   "login-button": "ანგარიშის შექმნა",
   "signup-prompt": "გაქვთ ანგარიში?",
-  "signup-link": "შესვლა"
+  "signup-link": "შესვლა",
+  "toast-title": "გილოცავთ",
+  "toast-message": "ანგარიში წარმატებით შეიქმნა"
 }

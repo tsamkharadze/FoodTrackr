@@ -1,0 +1,21 @@
+{
+  "food_diary": {
+    "select_food": "აირჩიეთ საკვები...",
+    "search_foods_placeholder": "საკვების ძიება...",
+    "no_foods_found": "საკვები ვერ მოიძებნა.",
+    "meal_type": "საკვების ტიპი",
+    "grams_placeholder": "გრამი",
+    "add_to_diary": "დამატება დღიურში",
+    "loading": "ჩატვირთვა...",
+    "meal_types": {
+      "breakfast": "საუზმე",
+      "lunch": "სადილი",
+      "dinner": "ვახშამი",
+      "snack": "გემრიელი"
+    },
+    "toast": {
+      "title": "შესრულებულია",
+      "description": "საკვები წარმატებით დაემატა"
+    }
+  }
+}

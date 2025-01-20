@@ -3,9 +3,9 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AUTH_ROUTES } from "./auth/auth-routes";
 import NotFoundPage from "@/pages/404/not-found-page";
 import { DASHBOARD_ROUTES } from "./dashboard/dashboard-routes";
-import HomeView from "@/pages/home/view/home-view";
 import LanguageGuard from "@/guards/language-guard";
 import { AuthGuard } from "@/guards/route-guards/auth";
+import Landing from "@/pages/landing/landing-page";
 
 export const AllRoutes = () => {
   return (
@@ -18,7 +18,7 @@ export const AllRoutes = () => {
             index
             element={
               <AuthGuard>
-                <HomeView />
+                <Landing />
               </AuthGuard>
             }
           />

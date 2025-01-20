@@ -110,7 +110,7 @@ export function CaloriesChart() {
                             y={(viewBox.cy || 0) + 24}
                             className="fill-muted-foreground"
                           >
-                            Calories
+                            {t("dashboard-translation.charts.calories")}
                           </tspan>
                         </text>
                       );

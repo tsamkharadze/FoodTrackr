@@ -8,5 +8,6 @@
   "login-button": "Login",
   "login-with-google": "Login with Google",
   "signup-prompt": "Don't have an account?",
-  "signup-link": "Sign up"
+  "signup-link": "Sign up",
+  "default-error": "Invalid login credentials"
 }

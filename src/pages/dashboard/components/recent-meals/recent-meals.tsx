@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Table,
   TableBody,
@@ -14,6 +15,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 
 export function RecentMeals() {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const queryClient = useQueryClient();
   const recentMeals = useAtomValue(foodDiaryAtom);
   const { mutate, isPending } = useDeleteFoodFromDiary();
@@ -30,30 +33,37 @@ export function RecentMeals() {
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
       <Table>
-        <TableCaption>Menu</TableCaption>
+        <TableCaption>{t("recent-meals-translation.menu")}</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableCell>Food</TableCell>
-            <TableCell>Meal Type</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Calories</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>{t("recent-meals-translation.food")}</TableCell>
+            <TableCell>{t("recent-meals-translation.mealType")}</TableCell>
+            <TableCell>{t("recent-meals-translation.date")}</TableCell>
+            <TableCell>{t("recent-meals-translation.calories")}</TableCell>
+            <TableCell>{t("recent-meals-translation.actions")}</TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
           {recentMeals?.map((meal) => (
             <TableRow key={meal.id}>
-              <TableCell>{meal.food_name}</TableCell>
-              <TableCell>{meal.meal_type}</TableCell>
+              <TableCell>
+                {lang === "en" ? meal.food_name_en : meal.food_name_ka}
+              </TableCell>
+              <TableCell>
+                {" "}
+                {lang === "en" ? meal.meal_type_en : meal.meal_type_ka}
+              </TableCell>
               <TableCell>{new Date(meal.date).toLocaleDateString()}</TableCell>
-              <TableCell>{meal.calories} kcal</TableCell>
+              <TableCell>
+                {meal.calories} {lang === "en" ? "kcal" : "კკალ"}
+              </TableCell>
               <TableCell>
                 <Button
                   variant={"destructive"}
                   disabled={isPending}
                   onClick={() => handleDeleteFoodFromDiary(meal.id)}
                 >
-                  Delete
+                  {t("recent-meals-translation.delete")}
                 </Button>
               </TableCell>
             </TableRow>

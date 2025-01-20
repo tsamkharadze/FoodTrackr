@@ -19,6 +19,7 @@ import {
   RegisterFormInputs,
   registerSchema,
 } from "@/lib/validations/register.schema";
+import { useToast } from "@/hooks/use-toast";
 
 export function RegisterForm({
   className,
@@ -26,6 +27,7 @@ export function RegisterForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
+  const { toast } = useToast();
 
   const {
     handleSubmit,
@@ -43,7 +45,10 @@ export function RegisterForm({
     console.log(data);
     handleSignUp(data, {
       onSuccess: () => {
-        console.log("User successfully registered");
+        toast({
+          title: t("register-trans.toast-title"),
+          description: t("register-trans.toast-message"),
+        });
       },
     });
   };

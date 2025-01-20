@@ -28,9 +28,9 @@ function App() {
   }, [setUser]);
 
   const { data } = useGetProfile({
-    userId: user?.user.id || "", // Ensure you pass the userId as part of an object
+    userId: user?.user.id || "",
     queryOptions: {
-      enabled: !!user?.user.id, // Use queryOptions for enabling/disabling the query
+      enabled: !!user?.user.id,
     },
   });
 
