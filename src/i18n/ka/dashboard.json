@@ -19,7 +19,9 @@
   },
 
   "buttons": {
-    "confirm": "Confirm"
+    "confirm": "დადასტურება",
+    "submit": "არჩევა"
   },
-  "loading": "Loading"
+  "toast-header": "თარიღი არჩეულია",
+  "loading": "იტვირთება"
 }

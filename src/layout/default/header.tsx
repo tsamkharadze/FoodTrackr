@@ -1,5 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Home, UtensilsCrossed, Scale, User, LogIn, Menu } from "lucide-react";
+import {
+  Home,
+  UtensilsCrossed,
+  Scale,
+  User,
+  LogIn,
+  Menu,
+  LogOut,
+} from "lucide-react";
 import { useAtomValue } from "jotai";
 import { profileAtom, userAtom } from "@/store/auth";
 import { Button } from "@/components/ui/button";
@@ -136,6 +144,8 @@ export const Header = () => {
                   </NavLink>
 
                   <DropdownMenuItem onClick={() => handleLogout()}>
+                    <LogOut className="mr-2 h-4 w-4 text-red-500" />
+
                     {t("header-trans.sign-out")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>

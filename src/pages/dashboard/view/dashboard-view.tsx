@@ -9,10 +9,10 @@ const DashboardView = () => {
   return (
     <>
       <WeightStatusChart />
-      <FoodDiaryEntry />
       <DashboardCalendar />
       <CaloriesChart />
       <MacronutrientsChart />
+      <FoodDiaryEntry />
       <RecentMeals />
     </>
   );

@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { CalendarIcon } from "lucide-react";
@@ -12,7 +10,6 @@ import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -67,7 +64,7 @@ export function DashboardCalendar() {
     await queryClient.invalidateQueries({ queryKey: ["daily-food"] });
 
     toast({
-      title: "Date selected",
+      title: t("dashboard-translation.toast-header"),
       description: formattedDate,
     });
   }
@@ -84,48 +81,50 @@ export function DashboardCalendar() {
                 <FormLabel>
                   {t("dashboard-translation.charts.select-date")}
                 </FormLabel>
-                <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground",
-                        )}
-                      >
-                        {field.value ? (
-                          dayjs(field.value).format("YYYY-MM-DD")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={(selectedDate) => {
-                        field.onChange(selectedDate);
-                        setCalendarOpen(false);
-                      }}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormDescription>
-                  {t("dashboard-translation.charts.calendar-description")}{" "}
-                </FormDescription>
+                <div className="flex items-center space-x-4">
+                  <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground",
+                          )}
+                        >
+                          {field.value ? (
+                            dayjs(field.value).format("YYYY-MM-DD")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={(selectedDate) => {
+                          field.onChange(selectedDate);
+                          setCalendarOpen(false);
+                        }}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <Button type="submit">
+                    {t("dashboard-translation.buttons.submit")}
+                  </Button>
+                </div>
+
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
         </form>
       </Form>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Select,
@@ -25,26 +25,22 @@ const BmiCalc: React.FC = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<FormData>();
 
-  const sex = watch("sex");
-  const age = watch("age");
-  const height = watch("height");
-  const weight = watch("weight");
-
-  const { bmi, dailyCalories, carbs, protein, fats } = useNutritionCalculator({
-    sex: sex || "",
-    age: age || 0,
-    height: height || 0,
-    weight: weight || 0,
-  });
+  const [submittedData, setSubmittedData] = useState<FormData | null>(null);
 
   const onSubmit = (data: FormData) => {
-    console.log("Submitted Data:", data);
+    setSubmittedData(data);
   };
+
+  const { bmi, dailyCalories, carbs, protein, fats } = useNutritionCalculator({
+    sex: submittedData?.sex || "",
+    age: submittedData?.age || 0,
+    height: submittedData?.height || 0,
+    weight: submittedData?.weight || 0,
+  });
 
   return (
     <div className="flex flex-col items-center p-6 max-w-md mx-auto">
@@ -153,41 +149,37 @@ const BmiCalc: React.FC = () => {
         </Button>
       </form>
 
-      {/* BMI Result */}
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">
-          {t("bmi-calc-translation.bmi-calc.results.bmi.title")}
-        </h2>
-        <p className="text-lg">{bmi}</p>
-      </div>
+      {/* Results Section */}
+      {submittedData && (
+        <div className="mt-6">
+          <h2 className="text-xl font-semibold">
+            {t("bmi-calc-translation.bmi-calc.results.bmi.title")}
+          </h2>
+          <p className="text-lg">{bmi}</p>
 
-      {/* Daily Caloric Intake */}
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">
-          {t("bmi-calc-translation.bmi-calc.results.daily-intake.title")}{" "}
-          {dailyCalories}
-          {t("bmi-calc-translation.bmi-calc.results.daily-intake.calories")}
-        </h2>
-      </div>
+          <h2 className="text-xl font-semibold mt-4">
+            {t("bmi-calc-translation.bmi-calc.results.daily-intake.title")}{" "}
+            {dailyCalories}
+            {t("bmi-calc-translation.bmi-calc.results.daily-intake.calories")}
+          </h2>
 
-      {/* Macronutrient Result */}
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">
-          {t("bmi-calc-translation.bmi-calc.results.macronutrients.title")}
-        </h2>
-        <p className="text-lg">
-          {t("bmi-calc-translation.bmi-calc.results.macronutrients.carbs")}
-          {carbs}
-        </p>
-        <p className="text-lg">
-          {t("bmi-calc-translation.bmi-calc.results.macronutrients.protein")}{" "}
-          {protein}
-        </p>
-        <p className="text-lg">
-          {t("bmi-calc-translation.bmi-calc.results.macronutrients.fats")}{" "}
-          {fats}
-        </p>
-      </div>
+          <h2 className="text-xl font-semibold mt-4">
+            {t("bmi-calc-translation.bmi-calc.results.macronutrients.title")}
+          </h2>
+          <p className="text-lg">
+            {t("bmi-calc-translation.bmi-calc.results.macronutrients.carbs")}
+            {carbs}
+          </p>
+          <p className="text-lg">
+            {t("bmi-calc-translation.bmi-calc.results.macronutrients.protein")}{" "}
+            {protein}
+          </p>
+          <p className="text-lg">
+            {t("bmi-calc-translation.bmi-calc.results.macronutrients.fats")}{" "}
+            {fats}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
