@@ -16,7 +16,6 @@ import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { useAtomValue } from "jotai";
 import { foodDiaryAtom, profileAtom } from "@/store/auth";
 import { cn } from "@/lib/utils";
-import "./radial-chart.module.css";
 import { useTranslation } from "react-i18next";
 
 const chartConfig = {

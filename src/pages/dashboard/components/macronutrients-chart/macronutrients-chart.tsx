@@ -1,7 +1,6 @@
 "use client";
 
 import { Pie, PieChart } from "recharts";
-import "./macronutrients-chart.module.css";
 
 import {
   Card,

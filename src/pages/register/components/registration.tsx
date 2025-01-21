@@ -92,7 +92,7 @@ export function RegisterForm({
                   </p>
                 )}
               </div>
-              <Button type="submit" className="w-full">
+              <Button variant="secondary" type="submit" className="w-full">
                 {t("register-trans.login-button")}
               </Button>
             </div>

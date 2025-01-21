@@ -112,7 +112,10 @@ export const Header = () => {
             <ChangeLanguage />
 
             {!user ? (
-              <Button onClick={() => navigate(AUTH_PATHS.LOGIN_PAGE)}>
+              <Button
+                variant="secondary"
+                onClick={() => navigate(AUTH_PATHS.LOGIN_PAGE)}
+              >
                 <LogIn className="mr-2 h-4 w-4" />
                 {t("header-trans.sign-in")}
               </Button>
