@@ -12,6 +12,22 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import useNutritionCalculator from "@/hooks/useNutritionCalculator";
 import { useTranslation } from "react-i18next";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
+import i18n from "@/i18n";
 
 type FormData = {
   sex: string;
@@ -19,9 +35,17 @@ type FormData = {
   height: number;
   weight: number;
 };
+const BMI_RANGES = {
+  OVERWEIGHT: { min: 25, max: 29.9, color: "hsl(0, 100%, 50%)" },
+  UNDERWEIGHT: { min: 0, max: 18.5, color: "hsl(200, 100%, 50%)" },
+  NORMAL: { min: 18.5, max: 24.9, color: "hsl(120, 100%, 35%)" },
+  OBESE: { min: 30, max: 40, color: "hsl(40, 100%, 50%)" },
+};
 
 const BmiCalc: React.FC = () => {
   const { t } = useTranslation();
+  const you = i18n.language === "ka" ? "შენ" : "you";
+
   const {
     register,
     handleSubmit,
@@ -41,6 +65,39 @@ const BmiCalc: React.FC = () => {
     height: submittedData?.height || 0,
     weight: submittedData?.weight || 0,
   });
+  const chartData = [
+    {
+      name: "BMI Range",
+      underweight: BMI_RANGES.UNDERWEIGHT.max,
+      [you]: bmi ?? 0,
+      overweight: BMI_RANGES.OVERWEIGHT.min,
+      obese: BMI_RANGES.OBESE.max - BMI_RANGES.OVERWEIGHT.max,
+    },
+  ];
+  const chartConfig = {
+    overweight: {
+      label: t("dashboard-translation.charts.overweight"),
+      color: BMI_RANGES.OVERWEIGHT.color,
+    },
+    underweight: {
+      label: t("dashboard-translation.charts.underweight"),
+      color: BMI_RANGES.UNDERWEIGHT.color,
+    },
+    normal: {
+      label: t("dashboard-translation.charts.normal"),
+      color: BMI_RANGES.NORMAL.color,
+    },
+  } satisfies ChartConfig;
+  const getBMICategory = (bmi: number) => {
+    if (bmi < BMI_RANGES.UNDERWEIGHT.max)
+      return t("dashboard-translation.charts.underweight");
+    if (bmi < BMI_RANGES.NORMAL.max)
+      return t("dashboard-translation.charts.normal");
+    if (bmi < BMI_RANGES.OVERWEIGHT.max)
+      return t("dashboard-translation.charts.overweight");
+    return "Obese";
+  };
+  const category = getBMICategory(bmi);
 
   return (
     <div className="flex flex-col items-center p-6 max-w-md mx-auto">
@@ -180,6 +237,95 @@ const BmiCalc: React.FC = () => {
           </p>
         </div>
       )}
+
+      <Card className="  flex flex-col">
+        <CardHeader className="items-center pb-0">
+          <CardTitle>
+            {t("dashboard-translation.charts.weight-status")}
+          </CardTitle>
+          <CardDescription>
+            {t("dashboard-translation.charts.bmi-category")} : {category}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-1 items-center pb-0">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square w-full max-w-[250px]"
+          >
+            <RadialBarChart
+              data={chartData}
+              startAngle={180}
+              endAngle={0}
+              innerRadius={80}
+              outerRadius={130}
+            >
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                <Label
+                  // @ts-expect-error daataipe
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) - 16}
+                            className="fill-foreground text-2xl font-bold"
+                          >
+                            {submittedData?.weight} kg
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 4}
+                            className="fill-muted-foreground"
+                          >
+                            BMI: {bmi.toFixed(1)}
+                          </tspan>
+                        </text>
+                      );
+                    }
+                  }}
+                />
+              </PolarRadiusAxis>
+              <RadialBar
+                dataKey="overweight"
+                fill={BMI_RANGES.OVERWEIGHT.color}
+                cornerRadius={5}
+                className="stroke-transparent stroke-2"
+              />
+              <RadialBar
+                dataKey={you}
+                fill={BMI_RANGES.NORMAL.color}
+                cornerRadius={5}
+                className="stroke-transparent stroke-2"
+              />
+              <RadialBar
+                dataKey="underweight"
+                fill={BMI_RANGES.UNDERWEIGHT.color}
+                cornerRadius={5}
+                className="stroke-transparent stroke-2"
+              />
+            </RadialBarChart>
+          </ChartContainer>
+        </CardContent>
+
+        <CardFooter className="flex-col gap-2 text-sm">
+          <div>
+            <p>
+              {`${t("dashboard-translation.charts.protein")}: ${protein?.toFixed(1)}/`}
+            </p>
+            <p>
+              {`${t("dashboard-translation.charts.fat")}: ${fats?.toFixed(1)}/`}
+            </p>
+            <p>
+              {`${t("dashboard-translation.charts.carb")}: ${carbs?.toFixed(1)}/`}
+            </p>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 };
