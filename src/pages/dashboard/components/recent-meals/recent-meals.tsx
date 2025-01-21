@@ -37,7 +37,9 @@ export function RecentMeals() {
         <TableHeader>
           <TableRow>
             <TableCell>{t("recent-meals-translation.food")}</TableCell>
-            <TableCell>{t("recent-meals-translation.mealType")}</TableCell>
+            <TableCell className="hidden md:table-cell">
+              {t("recent-meals-translation.mealType")}
+            </TableCell>
             <TableCell>{t("recent-meals-translation.date")}</TableCell>
             <TableCell>{t("recent-meals-translation.calories")}</TableCell>
             <TableCell>{t("recent-meals-translation.actions")}</TableCell>
@@ -49,8 +51,7 @@ export function RecentMeals() {
               <TableCell>
                 {lang === "en" ? meal.food_name_en : meal.food_name_ka}
               </TableCell>
-              <TableCell>
-                {" "}
+              <TableCell className="hidden md:table-cell">
                 {lang === "en" ? meal.meal_type_en : meal.meal_type_ka}
               </TableCell>
               <TableCell>{new Date(meal.date).toLocaleDateString()}</TableCell>
