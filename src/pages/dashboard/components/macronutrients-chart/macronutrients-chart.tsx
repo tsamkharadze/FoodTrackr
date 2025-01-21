@@ -23,20 +23,20 @@ import { foodDiaryAtom, profileAtom } from "@/store/auth";
 import { useTranslation } from "react-i18next";
 
 const chartConfig = {
-  macronutrients: {
-    label: "Macros",
+  visitors: {
+    label: "Visitors",
   },
-  carb: {
-    label: "carb",
+  chrome: {
+    label: "Chrome",
     color: "hsl(var(--chart-1))",
   },
 
-  fat: {
-    label: "fat",
+  edge: {
+    label: "Edge",
     color: "hsl(var(--chart-4))",
   },
-  protein: {
-    label: "protein",
+  other: {
+    label: "Other",
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
@@ -51,26 +51,27 @@ export function MacronutrientsChart() {
 
   const chartData = [
     {
-      nutrient: t("dashboard-translation.charts.carb"),
-      score: totalCarb,
-      fill: "var(--color-carb)",
+      browser: t("dashboard-translation.charts.carb"),
+      visitors: totalCarb,
+      fill: "var(--color-chrome)",
     },
     {
-      nutrient: t("dashboard-translation.charts.fat"),
-      score: totalFat,
-      fill: "var(--color-fat)",
+      browser: t("dashboard-translation.charts.fat"),
+      visitors: totalFat,
+      fill: "var(--color-edge)",
     },
     {
-      nutrient: t("dashboard-translation.charts.protein"),
-      score: totalProtein,
-      fill: "var(--color-protein)",
+      browser: t("dashboard-translation.charts.protein"),
+      visitors: totalProtein,
+      fill: "var(--color-other)",
     },
   ];
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
-      <Card className="items-center h-[434px]  flex flex-col">
+      <Card className="flex flex-col">
         <CardHeader className="items-center pb-0">
           <CardTitle>
+            {" "}
             {t("dashboard-translation.charts.macronutrients-title")}:
           </CardTitle>
           <CardDescription>
@@ -89,8 +90,8 @@ export function MacronutrientsChart() {
               />
               <Pie
                 data={chartData}
-                dataKey="score"
-                nameKey="nutrient"
+                dataKey="visitors"
+                nameKey="browser"
                 innerRadius={60}
               />
             </PieChart>
