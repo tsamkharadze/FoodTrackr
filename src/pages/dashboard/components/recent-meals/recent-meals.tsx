@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useDeleteFoodFromDiary } from "@/react-query/mutation/food/food-mutations";
 import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
+import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
 
 export function RecentMeals() {
   const { t, i18n } = useTranslation();
@@ -25,7 +26,7 @@ export function RecentMeals() {
     if (id) {
       mutate(id, {
         onSuccess: () =>
-          queryClient.invalidateQueries({ queryKey: ["daily-food"] }),
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.DAILY_FOOD] }),
       });
     }
   };

@@ -31,6 +31,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { profileSchema, type ProfileFormData } from "@/lib/validations/profile";
 import { createCustomZodErrorMap } from "@/lib/validations/customErrorMap";
 import { z } from "zod";
+import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
 
 const Profile = () => {
   const [avatar_url, setAvatar] = useState("");
@@ -87,7 +88,9 @@ const Profile = () => {
       },
       {
         onSuccess: () => {
-          queryclient.invalidateQueries({ queryKey: ["profileInfo", userId] });
+          queryclient.invalidateQueries({
+            queryKey: [QUERY_KEYS.PROFILE_INFO, userId],
+          });
           toast({
             title: t("profile-translation.profile.toast-title"),
             description: t("profile-translation.profile.toast-message"),

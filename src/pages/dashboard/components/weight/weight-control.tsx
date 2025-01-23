@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { useWeightUpdate } from "@/react-query/mutation/weight-update/useWeightUpdate";
+import { useWeightUpdate } from "@/hooks/useWeightUpdate";
 import { cn } from "@/lib/utils";
 
 // BMI ranges

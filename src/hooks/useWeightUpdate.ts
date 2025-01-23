@@ -4,8 +4,9 @@ import { profileAtom, userAtom } from "@/store/auth";
 import { useAtomValue } from "jotai";
 import { updateWeight } from "@/supabase/weight-logs";
 import useToday from "@/hooks/useToday";
-import { useEditProfile } from "../edit/edit";
+import { useEditProfile } from "../react-query/mutation/edit/edit";
 import useNutritionCalculator from "@/hooks/useNutritionCalculator";
+import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
 
 export function useWeightUpdate(initialWeight: number) {
   const [weight, setWeight] = useState(initialWeight);
@@ -43,7 +44,7 @@ export function useWeightUpdate(initialWeight: number) {
   const { mutate: updateProfile, status } = useEditProfile();
   const isLoading = status === "pending" ? true : false;
   const { mutate: updateUserWeight } = useMutation({
-    mutationKey: ["weightLogs"],
+    mutationKey: [QUERY_KEYS.WEIGHT_LOGS],
     mutationFn: async (newWeight: number) => {
       if (!user?.user.id) throw new Error("User not authenticated");
       return updateWeight({
@@ -70,12 +71,14 @@ export function useWeightUpdate(initialWeight: number) {
           },
           {
             onSuccess: () => {
-              queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
+              queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.PROFILE_INFO],
+              });
             },
           },
         );
       }
-      queryClient.invalidateQueries({ queryKey: ["weightLogs"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.WEIGHT_LOGS] });
       setHasChanged(false);
     },
   });

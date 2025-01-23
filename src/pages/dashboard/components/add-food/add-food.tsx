@@ -34,6 +34,7 @@ import {
 import useToday from "@/hooks/useToday";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
 interface FoodType {
   value_en: string;
   value_ka: string;
@@ -92,8 +93,10 @@ export function FoodDiaryEntry() {
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
-          queryClient.invalidateQueries({ queryKey: ["daily-food"] });
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.PROFILE_INFO],
+          });
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.DAILY_FOOD] });
           toast({
             title: t("add-food-translation.food_diary.toast.title"),
             description: t("add-food-translation.food_diary.toast.description"),

@@ -1,3 +1,4 @@
+import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
 import { addFoodToDiary, deleteFoodDiary } from "@/supabase/foods/foods";
 import {
   queryOptions,
@@ -11,7 +12,7 @@ export function useAddFoodToDiary() {
   return useMutation({
     mutationFn: addFoodToDiary,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["foodDiary"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.DAILY_FOOD] });
     },
   });
 }

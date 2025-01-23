@@ -27,6 +27,7 @@ import { foodDiaryAtom, selectedDateAtom } from "@/store/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
 
 const FormSchema = z.object({
   dob: z.date({
@@ -61,7 +62,7 @@ export function DashboardCalendar() {
     const formattedDate = dayjs(data.dob).format("YYYY-MM-DD");
     setSelectedDate(formattedDate);
 
-    await queryClient.invalidateQueries({ queryKey: ["daily-food"] });
+    await queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.DAILY_FOOD] });
 
     toast({
       title: t("dashboard-translation.toast-header"),
