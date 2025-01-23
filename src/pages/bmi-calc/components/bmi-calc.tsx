@@ -35,6 +35,11 @@ type FormData = {
   height: number;
   weight: number;
 };
+interface ViewBox {
+  cx: number;
+  cy: number;
+}
+
 const BMI_RANGES = {
   OVERWEIGHT: { min: 25, max: 29.9, color: "hsl(0, 100%, 50%)" },
   UNDERWEIGHT: { min: 0, max: 18.5, color: "hsl(200, 100%, 50%)" },
@@ -45,6 +50,7 @@ const BMI_RANGES = {
 const BmiCalc: React.FC = () => {
   const { t } = useTranslation();
   const you = i18n.language === "ka" ? "შენ" : "you";
+  const [isResultsVisible, setIsResultsVisible] = useState(false);
 
   const {
     register,
@@ -57,6 +63,7 @@ const BmiCalc: React.FC = () => {
 
   const onSubmit = (data: FormData) => {
     setSubmittedData(data);
+    setIsResultsVisible(true);
   };
 
   const { bmi, dailyCalories, carbs, protein, fats } = useNutritionCalculator({
@@ -97,7 +104,7 @@ const BmiCalc: React.FC = () => {
       return t("dashboard-translation.charts.overweight");
     return "Obese";
   };
-  const category = getBMICategory(bmi);
+  const category = bmi ? getBMICategory(bmi) : "Not available";
 
   return (
     <div className="flex flex-col items-center p-6 max-w-md mx-auto">
@@ -206,39 +213,10 @@ const BmiCalc: React.FC = () => {
         </Button>
       </form>
 
-      {/* Results Section */}
-      {submittedData && (
-        <div className="mt-6">
-          <h2 className="text-xl font-semibold">
-            {t("bmi-calc-translation.bmi-calc.results.bmi.title")}
-          </h2>
-          <p className="text-lg">{bmi}</p>
-
-          <h2 className="text-xl font-semibold mt-4">
-            {t("bmi-calc-translation.bmi-calc.results.daily-intake.title")}{" "}
-            {dailyCalories}
-            {t("bmi-calc-translation.bmi-calc.results.daily-intake.calories")}
-          </h2>
-
-          <h2 className="text-xl font-semibold mt-4">
-            {t("bmi-calc-translation.bmi-calc.results.macronutrients.title")}
-          </h2>
-          <p className="text-lg">
-            {t("bmi-calc-translation.bmi-calc.results.macronutrients.carbs")}
-            {carbs}
-          </p>
-          <p className="text-lg">
-            {t("bmi-calc-translation.bmi-calc.results.macronutrients.protein")}{" "}
-            {protein}
-          </p>
-          <p className="text-lg">
-            {t("bmi-calc-translation.bmi-calc.results.macronutrients.fats")}{" "}
-            {fats}
-          </p>
-        </div>
-      )}
-
-      <Card className="  flex flex-col">
+      {/* results */}
+      <Card
+        className={`${isResultsVisible ? "visible" : "invisible"} min-h-96 min-w-96 flex flex-col`}
+      >
         <CardHeader className="items-center pb-0">
           <CardTitle>
             {t("dashboard-translation.charts.weight-status")}
@@ -263,10 +241,11 @@ const BmiCalc: React.FC = () => {
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
+
               <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
                 <Label
-                  // @ts-expect-error daataipe
-                  content={({ viewBox }) => {
+                  // @ts-expect-error content არ ტაიპდება
+                  content={({ viewBox }: { viewBox: ViewBox }) => {
                     if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                       return (
                         <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
@@ -287,9 +266,11 @@ const BmiCalc: React.FC = () => {
                         </text>
                       );
                     }
+                    return null; // Return null if viewBox is invalid
                   }}
                 />
               </PolarRadiusAxis>
+
               <RadialBar
                 dataKey="overweight"
                 fill={BMI_RANGES.OVERWEIGHT.color}
@@ -315,13 +296,23 @@ const BmiCalc: React.FC = () => {
         <CardFooter className="flex-col gap-2 text-sm">
           <div>
             <p>
-              {`${t("dashboard-translation.charts.protein")}: ${protein?.toFixed(1)}/`}
+              {t("bmi-calc-translation.bmi-calc.results.bmi.title")}
+              {bmi}
+            </p>
+
+            <p>
+              {t("bmi-calc-translation.bmi-calc.results.daily-intake.title")}{" "}
+              {dailyCalories}
+              {t("bmi-calc-translation.bmi-calc.results.daily-intake.calories")}
             </p>
             <p>
-              {`${t("dashboard-translation.charts.fat")}: ${fats?.toFixed(1)}/`}
+              {`${t("dashboard-translation.charts.protein")}: ${protein?.toFixed(1)}`}
             </p>
             <p>
-              {`${t("dashboard-translation.charts.carb")}: ${carbs?.toFixed(1)}/`}
+              {`${t("dashboard-translation.charts.fat")}: ${fats?.toFixed(1)}`}
+            </p>
+            <p>
+              {`${t("dashboard-translation.charts.carb")}: ${carbs?.toFixed(1)}`}
             </p>
           </div>
         </CardFooter>

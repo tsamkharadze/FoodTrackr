@@ -1,40 +1,53 @@
 import { Link } from "react-router-dom";
-import { Activity, TrendingUp, Utensils, Shield } from "lucide-react";
 
-const features = [
-  {
-    name: "Track Your Meals",
-    description:
-      "Log your daily meals and track your macro nutrients with our intuitive food diary.",
-    icon: Utensils,
-  },
-  {
-    name: "Monitor Progress",
-    description: "Track your weight journey with detailed charts and insights.",
-    icon: TrendingUp,
-  },
-  {
-    name: "Set Goals",
-    description:
-      "Set personalized nutrition goals and track your progress towards them.",
-    icon: Activity,
-  },
-  {
-    name: "Secure & Private",
-    description:
-      "Your data is encrypted and protected. Only you can access your information.",
-    icon: Shield,
-  },
-];
+import { Activity, TrendingUp, Utensils, Shield } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AUTH_PATHS } from "@/routes/auth/auth.enum";
+import { useTranslation } from "react-i18next";
 
 export default function Landing() {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+  const featuresTranslation = t("landing-translation.landing.features.list", {
+    returnObjects: true,
+  }) as { name: string; description: string }[];
+
+  const features = [
+    {
+      name: featuresTranslation[0].name,
+      description: featuresTranslation[0].description,
+      icon: Utensils,
+    },
+    {
+      name: featuresTranslation[1].name,
+      description: featuresTranslation[1].description,
+      icon: TrendingUp,
+    },
+    {
+      name: featuresTranslation[2].name,
+      description: featuresTranslation[2].description,
+      icon: Activity,
+    },
+    {
+      name: featuresTranslation[3].name,
+      description: featuresTranslation[3].description,
+
+      icon: Shield,
+    },
+  ];
   return (
-    <div>
+    <div className="bg-background">
       {/* Hero section */}
       <div className="relative isolate overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <div
-            className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-white"
+            className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-background"
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=2850&q=80')`,
               backgroundSize: "cover",
@@ -46,26 +59,23 @@ export default function Landing() {
 
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0">
-            <h1 className="text-4xl font-bold tracking-tight   sm:text-6xl">
-              Take Control of Your Health Journey
+            <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
+              {t("landing-translation.landing.hero.title")}
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Track your nutrition, monitor your progress, and achieve your
-              fitness goals with our comprehensive fitness tracking platform.
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              {t("landing-translation.landing.hero.description")}
             </p>
             <div className="mt-10 flex items-center gap-x-6">
-              <Link
-                to="/register"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Get started
-              </Link>
-              <Link
-                to="/login"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Already have an account? <span aria-hidden="true">→</span>
-              </Link>
+              <Button asChild>
+                <Link to={`/${lang}/${AUTH_PATHS.REGISTER_PAGE}`}>
+                  {t("landing-translation.landing.hero.getStarted")}
+                </Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                <Link to={`/${lang}/${AUTH_PATHS.LOGIN_PAGE}`}>
+                  {t("landing-translation.landing.hero.alreadyHaveAccount")}
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -73,38 +83,32 @@ export default function Landing() {
 
       {/* Features section */}
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-600">
-            Everything you need
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-base font-semibold leading-7 text-primary">
+            {t("landing-translation.landing.features.toolsTitle")}
           </h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Smart features for your fitness journey
+          <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {t("landing-translation.landing.features.toolsSubtitle")}
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Our comprehensive suite of tools helps you stay on track with your
-            fitness goals.
+          <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            {t("landing-translation.landing.features.toolsDescription")}
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-4">
-            {features.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <div key={feature.name} className="flex flex-col">
-                  <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                    <Icon
-                      className="h-5 w-5 flex-none text-indigo-600"
-                      aria-hidden="true"
-                    />
-                    {feature.name}
-                  </dt>
-                  <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                    <p className="flex-auto">{feature.description}</p>
-                  </dd>
-                </div>
-              );
-            })}
-          </dl>
+        <div className="mx-auto mt-16 grid max-w-2xl gap-x-8 gap-y-16 sm:grid-cols-2 lg:mt-24 lg:max-w-none lg:grid-cols-4">
+          {features.map((feature) => {
+            const Icon = feature.icon;
+            return (
+              <Card key={feature.name} className="flex flex-col items-start">
+                <CardHeader className="flex items-center gap-x-3">
+                  <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                  <CardTitle className="text-base">{feature.name}</CardTitle>
+                </CardHeader>
+                <CardDescription className="mt-4 text-sm text-muted-foreground">
+                  {feature.description}
+                </CardDescription>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -51,7 +51,6 @@ export function DashboardCalendar() {
   const watchedDate = form.watch("dob");
   const date = dayjs(watchedDate).format("YYYY-MM-DD");
   const { data: foodData } = useGetFoods(date ?? "");
-  console.log(foodData);
   useEffect(() => {
     if (foodData?.food_diary) {
       setFoodDiary(foodData.food_diary);

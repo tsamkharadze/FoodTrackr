@@ -24,6 +24,8 @@ import recentMealsKa from "./ka/recent-meals.json";
 import recentMealsEn from "./en/recent-meals.json";
 import addFoofKa from "./ka/add-food.json";
 import addFoofEn from "./en/add-food.json";
+import landingKa from "./ka/landing-page.json";
+import landingEn from "./en/landing-page.json";
 
 // Initialize language detector before i18next
 const languageDetector = new LngDetector();
@@ -52,6 +54,7 @@ i18n
           "validations-translation": validationsKa,
           "recent-meals-translation": recentMealsKa,
           "add-food-translation": addFoofKa,
+          "landing-translation": landingKa,
         },
       },
       en: {
@@ -67,6 +70,7 @@ i18n
           "validations-translation": validationsEn,
           "recent-meals-translation": recentMealsEn,
           "add-food-translation": addFoofEn,
+          "landing-translation": landingEn,
         },
       },
     },

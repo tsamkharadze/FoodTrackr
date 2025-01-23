@@ -1,0 +1,33 @@
+{
+  "landing": {
+    "hero": {
+      "title": "Take Charge of Your Weight Control Journey",
+      "description": "Our platform helps you track your meals, monitor your progress, and achieve your weight control goals efficiently.",
+      "getStarted": "Get started",
+      "alreadyHaveAccount": "Already have an account? →"
+    },
+    "features": {
+      "toolsTitle": "All the tools you need",
+      "toolsSubtitle": "Smart features for weight control",
+      "toolsDescription": "Our platform is designed to empower your weight control journey with simple yet effective tools.",
+      "list": [
+        {
+          "name": "Track Your Meals",
+          "description": "Easily log meals and keep track of your calorie intake to stay on top of your weight control goals."
+        },
+        {
+          "name": "Monitor Progress",
+          "description": "Visualize your weight journey with detailed charts, so you can measure progress effectively."
+        },
+        {
+          "name": "Set Goals",
+          "description": "Define personalized weight targets and let us help you stay on track."
+        },
+        {
+          "name": "Secure & Private",
+          "description": "We ensure your data is encrypted and accessible only to you for complete privacy."
+        }
+      ]
+    }
+  }
+}

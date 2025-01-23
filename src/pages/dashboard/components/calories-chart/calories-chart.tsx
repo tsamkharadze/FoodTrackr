@@ -34,7 +34,6 @@ export function CaloriesChart() {
   const dailyCaloriesLimit = profile?.goal_calories ?? 0;
 
   const foodDiary = useAtomValue(foodDiaryAtom);
-  console.log(foodDiary);
 
   const totalCalories = foodDiary
     ? foodDiary.reduce((sum, meal) => sum + meal.calories, 0)
@@ -53,7 +52,6 @@ export function CaloriesChart() {
     },
   ];
 
-  console.log(foodDiary);
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
       <Card className="h-[434px] flex flex-col ">

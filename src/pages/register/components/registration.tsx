@@ -42,7 +42,6 @@ export function RegisterForm({
   const { mutate: handleSignUp } = useSignUp();
 
   const onSubmit = (data: RegisterFormInputs) => {
-    console.log(data);
     handleSignUp(data, {
       onSuccess: () => {
         toast({

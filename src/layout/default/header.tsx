@@ -26,7 +26,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DASHBOARD_PATHS } from "@/routes/dashboard/dashboard.enum";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
@@ -35,6 +41,7 @@ export const Header = () => {
   const lang = i18n.language;
   const profile = useAtomValue(profileAtom);
   const avatar = profile?.avatar_url;
+  const avatarFallback = profile?.full_name.split("")[0].toUpperCase() || "";
 
   const { mutate: handleLogout } = useLogOut();
 
@@ -131,7 +138,7 @@ export const Header = () => {
                     ) : (
                       <AvatarImage />
                     )}
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback>{avatarFallback}</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -163,25 +170,35 @@ export const Header = () => {
                 <Menu className="h-6 w-6" />
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:hidden">
+            <DialogContent
+              className="sm:hidden"
+              aria-describedby="dialog-description"
+            >
+              <DialogTitle></DialogTitle>
+
+              <div className="hidden" id="dialog-description">
+                {t("header-trans.mobile-navigation-description")}
+              </div>
               <div className="flex flex-col space-y-4">
-                {navigation.map((item) => {
+                {navigation.map((item, index) => {
                   const Icon = item.icon;
                   return (
-                    <NavLink
-                      key={item.name}
-                      to={item.href}
-                      className={({ isActive }) =>
-                        `inline-flex items-center text-sm font-medium ${
-                          isActive
-                            ? "text-indigo-500"
-                            : "text-gray-500 hover:text-gray-700"
-                        }`
-                      }
-                    >
-                      <Icon className="mr-2 h-4 w-4" />
-                      {item.name}
-                    </NavLink>
+                    <DialogDescription key={index}>
+                      <NavLink
+                        key={item.name}
+                        to={item.href}
+                        className={({ isActive }) =>
+                          `inline-flex items-center text-sm font-medium ${
+                            isActive
+                              ? "text-indigo-500"
+                              : "text-gray-500 hover:text-gray-700"
+                          }`
+                        }
+                      >
+                        <Icon className="mr-2 h-4 w-4" />
+                        {item.name}
+                      </NavLink>
+                    </DialogDescription>
                   );
                 })}
               </div>
