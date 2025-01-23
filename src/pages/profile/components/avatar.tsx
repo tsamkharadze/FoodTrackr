@@ -3,12 +3,14 @@ import { avataaars } from "@dicebear/collection";
 import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
 import { profileAtom } from "@/store/auth";
+import { useTranslation } from "react-i18next";
 
 const AvatarComp = ({
   onAvatarSelect,
 }: {
   onAvatarSelect: (avatarSvg: string) => void;
 }) => {
+  const { t } = useTranslation();
   const profile = useAtomValue(profileAtom);
   const actualAvatar = profile?.avatar_url;
 
@@ -50,7 +52,7 @@ const AvatarComp = ({
   return (
     <div className="mx-auto max-w-xl p-6">
       <h2 className="mb-6 text-center text-2xl font-bold">
-        Choose Your Avatar
+        {t("profile-translation.profile.avatar.title")}
       </h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {avatars.map((svg, index) => (
@@ -71,7 +73,7 @@ const AvatarComp = ({
         ))}
       </div>
       <h3 className="mt-6 text-center text-xl font-semibold">
-        Selected Avatar
+        {t("profile-translation.profile.avatar.selected")}
       </h3>
       <div
         className="mx-auto mt-4 h-32 w-32 rounded-lg border border-blue-500 p-4"

@@ -16,6 +16,7 @@
       "male": "Male",
       "female": "Female"
     },
+    "avatar": { "title": "Choose Your Avatar", "selected": "Selected Avatar " },
 
     "buttons": {
       "confirm": "Save Changes"

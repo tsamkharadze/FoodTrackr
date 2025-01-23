@@ -113,7 +113,7 @@ const Profile = () => {
 
   return (
     <div className="flex h-[500px] min-h-min items-center justify-center">
-      <Card className="my-3">
+      <Card className="my-3 min-w-96">
         <CardHeader>
           <CardTitle>{t("profile-translation.profile.title")}</CardTitle>
           <CardDescription>
