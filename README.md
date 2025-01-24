@@ -1,4 +1,4 @@
-# Calorie Tracker App (Like Yazio)
+# FootTrackr App
 
 This project is a calorie tracking application, designed to help users monitor their daily food intake, track macronutrients, and achieve their health and fitness goals.
 
@@ -54,13 +54,13 @@ This project leverages a modern tech stack for optimal performance and maintaina
 1.  Clone the repository:
 
     ```bash
-    git clone [https://github.com/](https://github.com/)[tsamkharadze]/[FoodTrackr].git
+    git clone https://github.com/tsamkharadze/FoodTrackr
     ```
 
 2.  Navigate to the project directory:
 
     ```bash
-    cd [FoodTrackr]
+    cd FoodTrackr
     ```
 
 3.  Install dependencies:
