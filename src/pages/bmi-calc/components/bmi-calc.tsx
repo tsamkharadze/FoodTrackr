@@ -243,7 +243,7 @@ const BmiCalc: React.FC = () => {
         </div>
 
         {/* Submit Button */}
-        <Button variant={"secondary"} type="submit" className="w-full">
+        <Button type="submit" className="w-full">
           {t("bmi-calc-translation.bmi-calc.form.submit")}
         </Button>
       </form>
