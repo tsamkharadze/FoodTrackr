@@ -115,7 +115,7 @@ export function LoginForm({
                   </p>
                 )}
               </div>
-              <Button variant="secondary" type="submit" className="w-full">
+              <Button type="submit" className="w-full">
                 {t("login-trans.login-button")}
               </Button>
             </div>

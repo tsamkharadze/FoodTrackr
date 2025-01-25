@@ -101,7 +101,7 @@ export const Header = () => {
                   className={({ isActive }) =>
                     `inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
                       isActive
-                        ? "border-indigo-500 text-gray-900"
+                        ? "border-indigo-500 text-gray-900 dark:text-white"
                         : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                     }`
                   }
@@ -119,10 +119,7 @@ export const Header = () => {
             <ChangeLanguage />
 
             {!user ? (
-              <Button
-                variant="secondary"
-                onClick={() => navigate(AUTH_PATHS.LOGIN_PAGE)}
-              >
+              <Button onClick={() => navigate(AUTH_PATHS.LOGIN_PAGE)}>
                 <LogIn className="mr-2 h-4 w-4" />
                 {t("header-trans.sign-in")}
               </Button>
