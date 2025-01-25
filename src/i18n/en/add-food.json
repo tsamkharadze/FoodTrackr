@@ -1,5 +1,6 @@
 {
   "food_diary": {
+    "title": "Add food",
     "select_food": "Select food...",
     "search_foods_placeholder": "Search foods...",
     "no_foods_found": "No foods found.",

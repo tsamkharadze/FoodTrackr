@@ -114,6 +114,9 @@ export function FoodDiaryEntry() {
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
       <div className="space-y-4">
+        <p className="pl-1 font-medium">
+          {t("add-food-translation.food_diary.title")}
+        </p>
         <div className="flex md:flex-row flex-col gap-4">
           <div className="flex-1">
             <Popover open={open} onOpenChange={setOpen}>
@@ -162,7 +165,6 @@ export function FoodDiaryEntry() {
               </PopoverContent>
             </Popover>
           </div>
-
           <div className=" flex gap-4 ">
             <Select
               value={foodType ? JSON.stringify(foodType) : ""}
@@ -227,7 +229,6 @@ export function FoodDiaryEntry() {
               />
             </div>
           </div>
-
           <Button
             onClick={handleAddFood}
             disabled={!selectedFood || isAddLoading || !foodType}

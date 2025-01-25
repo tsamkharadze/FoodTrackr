@@ -1,5 +1,6 @@
 {
   "food_diary": {
+    "title": "საკვების დამატება",
     "select_food": "აირჩიეთ საკვები...",
     "search_foods_placeholder": "საკვების ძიება...",
     "no_foods_found": "საკვები ვერ მოიძებნა.",

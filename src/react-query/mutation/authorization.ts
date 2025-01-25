@@ -1,23 +1,25 @@
 import { login, logout, registerUser } from "@/supabase/auth";
-import { useMutation } from "@tanstack/react-query";
+import { queryOptions, useMutation } from "@tanstack/react-query";
+import { MUTATION_KEYS } from "./mutation-keys.enum";
 
 export const useSignIn = () => {
   return useMutation({
-    mutationKey: ["login"],
+    mutationKey: [MUTATION_KEYS.LOGIN],
     mutationFn: login,
+    ...queryOptions,
   });
 };
 
 export const useSignUp = () => {
   return useMutation({
-    mutationKey: ["register"],
+    mutationKey: [MUTATION_KEYS.REGISTER],
     mutationFn: registerUser,
   });
 };
 
 export const useLogOut = () => {
   return useMutation({
-    mutationKey: ["logout"],
+    mutationKey: [MUTATION_KEYS.LOGOUT],
     mutationFn: logout,
   });
 };

@@ -32,6 +32,7 @@ import { profileSchema, type ProfileFormData } from "@/lib/validations/profile";
 import { createCustomZodErrorMap } from "@/lib/validations/customErrorMap";
 import { z } from "zod";
 import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
+import { Spinner } from "@/components/ui/spinner";
 
 const Profile = () => {
   const [avatar_url, setAvatar] = useState("");
@@ -108,7 +109,7 @@ const Profile = () => {
   };
 
   if (isLoading) {
-    return <div>{t("profile-translation.profile.loading")}</div>;
+    return <Spinner size={"large"} />;
   }
 
   return (

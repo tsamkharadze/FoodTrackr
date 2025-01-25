@@ -250,7 +250,7 @@ const BmiCalc: React.FC = () => {
 
       {/* Results */}
       <Card
-        className={`${isResultsVisible ? "visible" : "invisible"} min-h-96 min-w-96 flex flex-col`}
+        className={`${isResultsVisible ? "visible" : "invisible"} mt-5 min-h-96 min-w-96 flex flex-col`}
       >
         <CardHeader className="items-center pb-0">
           <CardTitle>

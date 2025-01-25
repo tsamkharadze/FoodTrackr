@@ -47,11 +47,11 @@ export function LoginForm({
   });
 
   const onSubmit = (data: LoginFormInputs) => {
-    setServerError(null); // Reset server error before making the request
+    setServerError(null);
     handleLogin(data, {
       onSuccess: () => {
-        navigate(toNavigate);
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PROFILE_INFO] });
+        navigate(toNavigate);
       },
       onError: (error: Error) => {
         if (error instanceof AuthError) {
@@ -85,6 +85,7 @@ export function LoginForm({
                 <Input
                   id="email"
                   type="email"
+                  autoComplete="email"
                   placeholder={t("login-trans.email-placeholder")}
                   {...register("email")}
                 />
@@ -97,16 +98,11 @@ export function LoginForm({
                   <Label htmlFor="password">
                     {t("login-trans.password-label")}
                   </Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    {t("login-trans.forgot-password")}
-                  </a>
                 </div>
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="current-password"
                   {...register("password")}
                 />
                 {errors.password && (

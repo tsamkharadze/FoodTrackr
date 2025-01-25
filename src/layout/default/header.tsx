@@ -8,7 +8,7 @@ import {
   Menu,
   LogOut,
 } from "lucide-react";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { profileAtom, userAtom } from "@/store/auth";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
@@ -39,11 +39,15 @@ export const Header = () => {
   const user = useAtomValue(userAtom);
   const navigate = useNavigate();
   const lang = i18n.language;
-  const profile = useAtomValue(profileAtom);
+  const [profile, setProfile] = useAtom(profileAtom);
   const avatar = profile?.avatar_url;
   const avatarFallback = profile?.full_name.split("")[0].toUpperCase() || "";
 
   const { mutate: handleLogout } = useLogOut();
+  const onLogout = () => {
+    handleLogout();
+    setProfile(null);
+  };
 
   const unauthorized = [
     { name: t("header-trans.home"), href: `/${lang}/home`, icon: Home },
@@ -153,7 +157,7 @@ export const Header = () => {
                     </DropdownMenuItem>
                   </NavLink>
 
-                  <DropdownMenuItem onClick={() => handleLogout()}>
+                  <DropdownMenuItem onClick={() => onLogout()}>
                     <LogOut className="mr-2 h-4 w-4 text-red-500" />
 
                     {t("header-trans.sign-out")}

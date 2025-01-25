@@ -70,6 +70,7 @@ export function RegisterForm({
                   id="email"
                   type="email"
                   placeholder={t("register-trans.email-placeholder")}
+                  autoComplete="email"
                   {...register("email")}
                 />
                 {errors.email && (
@@ -83,6 +84,7 @@ export function RegisterForm({
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="new-password"
                   {...register("password")}
                 />
                 {errors.password && (

@@ -1,6 +1,7 @@
 import { fillProfileInfo } from "@/supabase/account";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MUTATION_KEYS } from "../mutation-keys.enum";
+import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
 
 export const useEditProfile = () => {
   const queryClient = useQueryClient();
@@ -8,7 +9,7 @@ export const useEditProfile = () => {
     mutationKey: [MUTATION_KEYS.EDIT_PROFILE],
     mutationFn: fillProfileInfo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PROFILE_INFO] });
     },
   });
 };

@@ -4,7 +4,7 @@
   "email-label": "ელფოსტა",
   "email-placeholder": "example@example.com",
   "password-label": "პაროლი",
-  "login-button": "ანგარიშის შექმნა",
+  "register-button": "ანგარიშის შექმნა",
   "signup-prompt": "გაქვთ ანგარიში?",
   "signup-link": "შესვლა",
   "toast-title": "გილოცავთ",

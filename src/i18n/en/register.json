@@ -4,7 +4,7 @@
   "email-label": "Email",
   "email-placeholder": "example@example.com",
   "password-label": "Password",
-  "login-button": "Login",
+  "register-button": "Register",
   "signup-prompt": "Already have an account?",
   "signup-link": "Sign in",
   "toast-title": "Success",

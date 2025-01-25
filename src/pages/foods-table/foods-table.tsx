@@ -56,8 +56,8 @@ const FoodsTable = () => {
         <CardTitle>{t("foods-table-translation.title")}</CardTitle>
         <Input
           placeholder={t("foods-table-translation.search-placeholder")}
-          value={search} // Set value to reflect the current search state
-          onChange={handleSetSearch} // Trigger the search update on change
+          value={search}
+          onChange={handleSetSearch}
         />
       </CardHeader>
       <CardContent>
