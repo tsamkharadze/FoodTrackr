@@ -193,7 +193,7 @@ const Profile = () => {
               )}
               <Input
                 id="weight"
-                type="number"
+                // type="number"
                 placeholder={t(
                   "profile-translation.profile.fields.weightPlaceholder",
                 )}

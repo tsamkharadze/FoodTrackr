@@ -19,6 +19,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { AUTH_PATHS } from "@/routes/auth/auth.enum";
 import { LoginFormInputs, loginSchema } from "@/lib/validations/login.schema";
 import { AuthError } from "@supabase/supabase-js";
+import { QUERY_KEYS } from "@/react-query/query/profile/query-keys.enum";
 
 export function LoginForm({
   className,
@@ -50,7 +51,7 @@ export function LoginForm({
     handleLogin(data, {
       onSuccess: () => {
         navigate(toNavigate);
-        queryClient.invalidateQueries();
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PROFILE_INFO] });
       },
       onError: (error: Error) => {
         if (error instanceof AuthError) {

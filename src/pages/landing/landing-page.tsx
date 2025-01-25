@@ -94,14 +94,19 @@ export default function Landing() {
             {t("landing-translation.landing.features.toolsDescription")}
           </p>
         </div>
-        <div className="mx-auto mt-16 grid max-w-2xl gap-x-8 gap-y-16 sm:grid-cols-2 lg:mt-24 lg:max-w-none lg:grid-cols-4">
+        <div className="mx-auto mt-16 grid max-w-4xl gap-8 sm:grid-cols-2 lg:max-w-7xl lg:grid-cols-4 lg:gap-10">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
-              <Card key={feature.name} className="flex flex-col items-start">
-                <CardHeader className="flex items-center gap-x-3">
-                  <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
-                  <CardTitle className="text-base">{feature.name}</CardTitle>
+              <Card
+                key={feature.name}
+                className="flex flex-col items-center p-6 text-center bg-card shadow-lg rounded-lg hover:shadow-xl"
+              >
+                <CardHeader className="flex flex-col items-center gap-3">
+                  <Icon className="h-10 w-10 text-primary" aria-hidden="true" />
+                  <CardTitle className="text-lg font-medium">
+                    {feature.name}
+                  </CardTitle>
                 </CardHeader>
                 <CardDescription className="mt-4 text-sm text-muted-foreground">
                   {feature.description}

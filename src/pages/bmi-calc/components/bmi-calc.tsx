@@ -35,6 +35,7 @@ type FormData = {
   height: number;
   weight: number;
 };
+
 interface ViewBox {
   cx: number;
   cy: number;
@@ -45,6 +46,36 @@ const BMI_RANGES = {
   UNDERWEIGHT: { min: 0, max: 18.5, color: "hsl(200, 100%, 50%)" },
   NORMAL: { min: 18.5, max: 24.9, color: "hsl(120, 100%, 35%)" },
   OBESE: { min: 30, max: 40, color: "hsl(40, 100%, 50%)" },
+};
+
+// Custom label component for the radial chart
+const CustomLabel = ({
+  viewBox,
+  weight,
+  bmi,
+}: {
+  viewBox: ViewBox;
+  weight: number;
+  bmi: number;
+}) => {
+  return (
+    <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+      <tspan
+        x={viewBox.cx}
+        y={(viewBox.cy || 0) - 16}
+        className="fill-foreground text-2xl font-bold"
+      >
+        {weight} kg
+      </tspan>
+      <tspan
+        x={viewBox.cx}
+        y={(viewBox.cy || 0) + 4}
+        className="fill-muted-foreground"
+      >
+        BMI: {bmi.toFixed(1)}
+      </tspan>
+    </text>
+  );
 };
 
 const BmiCalc: React.FC = () => {
@@ -72,6 +103,7 @@ const BmiCalc: React.FC = () => {
     height: submittedData?.height || 0,
     weight: submittedData?.weight || 0,
   });
+
   const chartData = [
     {
       name: "BMI Range",
@@ -81,6 +113,7 @@ const BmiCalc: React.FC = () => {
       obese: BMI_RANGES.OBESE.max - BMI_RANGES.OVERWEIGHT.max,
     },
   ];
+
   const chartConfig = {
     overweight: {
       label: t("dashboard-translation.charts.overweight"),
@@ -95,6 +128,7 @@ const BmiCalc: React.FC = () => {
       color: BMI_RANGES.NORMAL.color,
     },
   } satisfies ChartConfig;
+
   const getBMICategory = (bmi: number) => {
     if (bmi < BMI_RANGES.UNDERWEIGHT.max)
       return t("dashboard-translation.charts.underweight");
@@ -104,6 +138,7 @@ const BmiCalc: React.FC = () => {
       return t("dashboard-translation.charts.overweight");
     return "Obese";
   };
+
   const category = bmi ? getBMICategory(bmi) : "Not available";
 
   return (
@@ -213,7 +248,7 @@ const BmiCalc: React.FC = () => {
         </Button>
       </form>
 
-      {/* results */}
+      {/* Results */}
       <Card
         className={`${isResultsVisible ? "visible" : "invisible"} min-h-96 min-w-96 flex flex-col`}
       >
@@ -222,7 +257,7 @@ const BmiCalc: React.FC = () => {
             {t("dashboard-translation.charts.weight-status")}
           </CardTitle>
           <CardDescription>
-            {t("dashboard-translation.charts.bmi-category")} : {category}
+            {t("dashboard-translation.charts.bmi-category")}: {category}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-1 items-center pb-0">
@@ -241,36 +276,13 @@ const BmiCalc: React.FC = () => {
                 cursor={false}
                 content={<ChartTooltipContent hideLabel />}
               />
-
               <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-                <Label
-                  // @ts-expect-error content არ ტაიპდება
-                  content={({ viewBox }: { viewBox: ViewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                      return (
-                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
-                          <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) - 16}
-                            className="fill-foreground text-2xl font-bold"
-                          >
-                            {submittedData?.weight} kg
-                          </tspan>
-                          <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 4}
-                            className="fill-muted-foreground"
-                          >
-                            BMI: {bmi.toFixed(1)}
-                          </tspan>
-                        </text>
-                      );
-                    }
-                    return null; // Return null if viewBox is invalid
-                  }}
+                <CustomLabel
+                  viewBox={{ cx: 130, cy: 130 }}
+                  weight={submittedData?.weight || 0}
+                  bmi={bmi}
                 />
               </PolarRadiusAxis>
-
               <RadialBar
                 dataKey="overweight"
                 fill={BMI_RANGES.OVERWEIGHT.color}
@@ -299,7 +311,6 @@ const BmiCalc: React.FC = () => {
               {t("bmi-calc-translation.bmi-calc.results.bmi.title")}
               {bmi}
             </p>
-
             <p>
               {t("bmi-calc-translation.bmi-calc.results.daily-intake.title")}{" "}
               {dailyCalories}

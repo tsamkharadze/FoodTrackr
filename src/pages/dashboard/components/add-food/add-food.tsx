@@ -48,7 +48,7 @@ export function FoodDiaryEntry() {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 500);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
-  const [quantity, setQuantity] = useState<number>(100);
+  const [quantity, setQuantity] = useState<number>(0);
   const [foodType, setFoodType] = useState<FoodType | null>(null);
   const selectedDate = useAtomValue(selectedDateAtom);
   const user = useAtomValue(userAtom);
@@ -111,7 +111,6 @@ export function FoodDiaryEntry() {
     setSearch("");
     setFoodType(null);
   };
-
   return (
     <div data-theme="calories" className={cn("rounded-lg p-4")}>
       <div className="space-y-4">
@@ -166,7 +165,7 @@ export function FoodDiaryEntry() {
 
           <div className=" flex gap-4 ">
             <Select
-              value={JSON.stringify(foodType) || ""}
+              value={foodType ? JSON.stringify(foodType) : ""}
               onValueChange={(value) => {
                 const parsedValue: FoodType = JSON.parse(value);
                 setFoodType(parsedValue);
